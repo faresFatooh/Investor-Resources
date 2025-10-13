@@ -723,12 +723,12 @@
                         <div class="cont2">
                             <section id="SAsection1" class="stockact active">
                                 <div style="width:100%; min-height:250px; background-color:#fff;">
-                                    <div id="stock-activity-simple-widget"><script>loadWidget('stock-activity-simple', "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853","v2");</script></div>
+                                    <div id="stock-activity-simple-widget"></div>
                                 </div>    
                             </section>
                             <section id="SAsection2" class="stockact">
                                 <div style="width:100%; min-height:250px; background-color:#fff;">
-                                    <div id="stock-activity-advanced-widget"><script>loadWidget('stock-activity-advanced', "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853","v2");</script></div>
+                                    <div id="stock-activity-advanced-widget"></div>
                                 </div>    
                             </section>
                         </div>
@@ -811,6 +811,7 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Fallback for loadWidget in case the script fails to load
         window.loadWidget = window.loadWidget || function(widgetId, companyId, lang, apiKey, version) {
             console.warn(`loadWidget function is not defined. Attempted to load widget: ${widgetId}`);
             const widgetElement = document.getElementById(`${widgetId}-widget`);
@@ -821,6 +822,7 @@
             }
         };
 
+        // Function to check if widget loaded correctly with retries
         function checkWidgetLoaded(widgetId, retryCount = 0, maxRetries = 3) {
             const widgetElement = document.getElementById(`${widgetId}-widget`);
             if (!widgetElement) return;
@@ -851,6 +853,27 @@
             }, 5000);
         }
 
+        // Function to wait for widget-loader.js to load
+        function waitForWidgetLoader(callback, maxWaitTime = 10000, interval = 500) {
+            let elapsedTime = 0;
+
+            const check = setInterval(() => {
+                if (typeof window.loadWidget === 'function' && !window.loadWidget.toString().includes('native code')) {
+                    clearInterval(check);
+                    callback();
+                } else if (elapsedTime >= maxWaitTime) {
+                    clearInterval(check);
+                    console.error('widget-loader.js did not load within the expected time.');
+                    document.querySelectorAll('[id$="-widget"]').forEach(widgetElement => {
+                        if (!widgetElement.id.includes('fact-sheet-charts')) {
+                            widgetElement.innerHTML = `<p class="text-red-600">Critical Error: Widget loader script failed to load. Check if https://irp.atnmo.com/v2/widget/widget-loader.js is accessible.</p>`;
+                        }
+                    });
+                }
+                elapsedTime += interval;
+            }, interval);
+        }
+
         function showSectionSA(sectionId, button) {
             const sections = document.querySelectorAll('.stockact');
             sections.forEach(section => section.classList.remove('active'));
@@ -859,6 +882,17 @@
             const buttons = document.querySelectorAll('.nav_sa button');
             buttons.forEach(btn => btn.classList.remove('active-btn'));
             button.classList.add('active-btn');
+
+            // Reinitialize widgets for the active section
+            const widgetId = sectionId === 'SAsection1' ? 'stock-activity-simple' : 'stock-activity-advanced';
+            waitForWidgetLoader(() => {
+                try {
+                    loadWidget(widgetId, "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853", "v2");
+                    checkWidgetLoaded(widgetId);
+                } catch (error) {
+                    console.error(`Failed to load widget ${widgetId}:`, error);
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -882,7 +916,8 @@
                 'email-subscription',
             ];
 
-            if (typeof window.loadWidget === 'function' && !window.loadWidget.toString().includes('native code')) {
+            // Load widgets only after widget-loader.js is ready
+            waitForWidgetLoader(() => {
                 widgets.forEach(widget => {
                     console.log(`Loading widget: ${widget}`);
                     try {
@@ -892,15 +927,7 @@
                         console.error(`Failed to load widget ${widget}:`, error);
                     }
                 });
-            } else {
-                console.warn('loadWidget function is not properly defined or script failed to load. Widgets will not load.');
-                widgets.forEach(widget => {
-                    const widgetElement = document.getElementById(`${widget}-widget`);
-                    if (widgetElement) {
-                        widgetElement.innerHTML = `<p class="text-red-600">Critical Error: Widget loader script failed. Check if https://irp.atnmo.com/v2/widget/widget-loader.js is accessible.</p>`;
-                    }
-                });
-            }
+            });
 
             const contentPanels = Array.from(document.querySelectorAll('.content-panel'));
             const sidebarItems = document.querySelectorAll('.ground-handling-nav ul li a');
@@ -962,8 +989,8 @@
                 const widgetsToLoad = widgetMap[panelId];
                 if (widgetsToLoad) {
                     const widgetList = Array.isArray(widgetsToLoad) ? widgetsToLoad : [widgetsToLoad];
-                    widgetList.forEach(widgetId => {
-                        if (typeof window.loadWidget === 'function' && !window.loadWidget.toString().includes('native code')) {
+                    waitForWidgetLoader(() => {
+                        widgetList.forEach(widgetId => {
                             const targetId = `${widgetId}-widget`;
                             const targetElement = document.getElementById(targetId);
 
@@ -976,9 +1003,9 @@
                                     console.error(`Failed to reinitialize widget ${widgetId}:`, error);
                                 }
                             }
-                        }
+                        });
+                        window.dispatchEvent(new Event('resize'));
                     });
-                    window.dispatchEvent(new Event('resize'));
                 }
 
                 if (panelId === 'content-factsheet') {
