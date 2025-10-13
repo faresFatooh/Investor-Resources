@@ -145,11 +145,24 @@
             background-color: var(--dark-blue);
         }
         
-        .doc-content { display: none; }
-        .doc-content.active { display: block; }
-        .mobile-nav-item { transition: all 0.3s ease; }
-        .mobile-nav-item.active { background-color: var(--dark-blue); color: white; }
-        .mobile-nav-container::-webkit-scrollbar { display: none; }
+        .doc-content { 
+            display: none; 
+            max-height: 100%; /* Ensure full height availability */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        .doc-content.active { 
+            display: block; 
+        }
+        .mobile-nav-item { 
+            transition: all 0.3s ease; 
+        }
+        .mobile-nav-item.active { 
+            background-color: var(--dark-blue); 
+            color: white; 
+        }
+        .mobile-nav-container::-webkit-scrollbar { 
+            display: none; 
+        }
         
         .doc-tab {
             padding: 0.5rem 1rem;
@@ -172,7 +185,7 @@
             padding: 0 1rem; 
             display: flex; 
             flex-wrap: nowrap; 
-            overflow-x: hidden; 
+            overflow-x: auto; /* Allow horizontal scrolling for tabs */
         }
         
         .doc-content .doc-row p {
@@ -401,6 +414,9 @@
                 flex-direction: column;
                 gap: 0.5rem;
             }
+            .doc-content {
+                max-height: none; /* Remove height restriction on mobile */
+            }
         }
     </style>
 </head>
@@ -481,7 +497,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-4 overflow-y-auto">
+                        <div class="p-4 flex-grow overflow-y-auto"> <!-- Ensure scrolling for doc-content -->
                             <div id="cd-s1" class="doc-content space-y-3" data-tab-group="corp_docs">
                                 <div class="doc-row">
                                     <p>Prospectus</p>
