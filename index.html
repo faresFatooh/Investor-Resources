@@ -183,7 +183,7 @@
                 overflow-x: hidden;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
-                scrollbar-width: auto;
+                scrollbar-width: none;
             }
             .widget-wrapper::-webkit-scrollbar {
                 display: none;
@@ -191,7 +191,7 @@
             .widget-wrapper > div,
             .widget-wrapper iframe {
                 width: 100% !important;
-                min-width: 1000px;
+                min-width: 100%;
                 max-width: 100%;
                 height: auto !important;
                 min-height: 1500px;
@@ -201,8 +201,6 @@
             #fact-sheet-charts-widget iframe {
                 height: auto !important;
                 min-height: 1500px;
-		min-width: 1000px;
-
                 width: 100%;
             }
         }
