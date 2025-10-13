@@ -294,6 +294,17 @@
                 font-size: 2rem; /* Larger on desktop, adjustable */
             }
         }
+
+        /* Inside <style> section */
+        @media (min-width: 1024px) {
+            .scroll-area {
+                padding: 1rem 0; /* Adds space above and below the title */
+                height: 150px; /* Fixed height to include title and area below */
+                width: 100%;
+                position: relative;
+                z-index: 10; /* Ensure it’s above other content */
+            }
+        }
         /* Styles for Stock Activity Tabs */
         .irH3 {
             font-size: 1.875rem;
@@ -398,286 +409,194 @@
                 </div>
             </aside>
             
-            <section class="content-main w-full bg-white">
-                <div id="content-overview" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Company Overview</h2><div id="company-snapshot-widget"></div></div>
-                <div id="content-announcement" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Announcement</h2><div id="corporate-news-widget"></div></div>
-                <div id="content-factsheet" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Fact Sheet</h2><div id="fact-sheet-table-widget"></div></div>
-                <div id="content-documents" class="content-panel">
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
-                        <div class="custom-header p-4"><h2>Corporate Documents</h2></div>
-                        <div class="bg-white p-2 flex overflow-x-auto shrink-0">
-                            <div class="doc-tabs flex-nowrap">
-                                <button class="doc-tab active" data-tab-group="corp_docs" data-tab-target="cd-s1">Prospectus & Transfer Document</button>
-                                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s2">Corporate Governance</button>
-                                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s3">Annual Reports</button>
-                                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s4">Shareholders Meeting</button>
-                                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s5">Investors Presentation</button>
-                            </div>
-                        </div>
-                        <div class="p-4 overflow-y-auto">
-                            <div id="cd-s1" class="doc-content active space-y-3" data-tab-group="corp_docs">
-                                <div class="doc-row">
-                                    <p>Prospectus</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2022/08/GAS-Project_Final-Prospectus.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Transfer Document (English)</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/09/Transfer-Document-En.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                            </div>
-                            <div id="cd-s2" class="doc-content space-y-3" data-tab-group="corp_docs">
-                                <div class="doc-row">
-                                    <p>Company By Laws</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/01/GAS-New-By-Laws.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Nomination & Renumeration Committee By Laws</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/05/NRC-Bylaws-Ar-En-Rev.01.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Dividend Policy</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2024/05/GAS-Dividend-Policy-Rev.2.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Board Membership Policy</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Board-Membership-Policy.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Protecting Shareholder’s Rights Policy</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Protecting-Shareholders-Rights-Policy-1.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Conflict of Interest Policy</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/09/GAS-Conflict-of-Interest-Policy-Rev.-0.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Audit Committee Charter</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/08/Audit-Committee-Bylaws-Ar-En-Rev.02.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Governance Procedures</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/11/GAS-Governance-Procedures.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Regulating the Relationship with Stakeholders Policy</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Regulating-the-Relationship-with-Stakeholders-Policy.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Competition Business Standards</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Competition-Business-Standards.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>Disclosure and Transparency Policy</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Disclosure-and-Transparency-Policy-1.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                            </div>
-                            <div id="cd-s3" class="doc-content space-y-3" data-tab-group="corp_docs">
-                                <div class="doc-row">
-                                    <p>GAS Annual Report 2024</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/04/GAS-Annual-Report-2024_En.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>GAS Annual Report 2023</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2024/05/GAS-Annual-Report-2023-En.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>GAS Annual Report 2022</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/04/Board-Report-2022-En.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>GAS Annual Report 2021</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2022/09/GAS-Board-Report_FY-2021_En.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                            </div>
-                            <div id="cd-s4" class="doc-content space-y-3" data-tab-group="corp_docs">
-                                <div class="doc-row header">
-                                    <p>Ordinary</p>
-                                </div>
-                                <div class="doc-row">
-                                    <p><a href="https://gasarabian.com/wp-content/uploads/2025/05/Minutes-of-Meeting-of-GAS-Shareholders.pdf" target="_blank">May 11, 2025</a></p>
-                                </div>
-                                <div class="doc-row header">
-                                    <p>Extra Ordinary</p>
-                                </div>
-                                <div class="doc-row">
-                                    <p><a href="https://gasarabian.com/wp-content/uploads/2024/12/Minutes-of-Meeting-of-GAS-Shareholders_10-12-24-.pdf" target="_blank">December 10, 2024</a></p>
-                                </div>
-                                <div class="doc-row">
-                                    <p><a href="https://gasarabian.com/wp-content/uploads/2024/07/May-14-2024.pdf" target="_blank">May 14, 2024</a></p>
-                                </div>
-                                <div class="doc-row">
-                                    <p><a href="https://gasarabian.com/wp-content/uploads/2023/08/MoM-of-GAS-EGM-08-08-2023.pdf" target="_blank">August 08, 2023</a></p>
-                                </div>
-                                <div class="doc-row">
-                                    <p><a href="https://gasarabian.com/wp-content/uploads/2023/05/Extraordinary-General-Assembly-Minutes-10-Apr-22-2023.pdf" target="_blank">April 10, 2023</a></p>
-                                </div>
-                                <div class="doc-row">
-                                    <p><a href="https://gasarabian.com/wp-content/uploads/2022/06/Extraordinary-General-Assembly-Minutes-11-Apr-22-1.pdf" target="_blank">April 11, 2022</a></p>
-                                </div>
-                            </div>
-                            <div id="cd-s5" class="doc-content space-y-3" data-tab-group="corp_docs">
-                                <div class="doc-row">
-                                    <p>GAS Investor Presentation (March 2025)</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/GAS-Company-Profile.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>GAS Investor Presentation (September 2024)</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2024/12/GAS-Investor-Presentation.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                                <div class="doc-row">
-                                    <p>GAS Investor Presentation (December 2023)</p>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/11/GAS-Investor-Presentation.pdf" target="_blank">
-                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+        <section class="content-main w-full bg-white">
+    <div id="content-overview" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Company Overview</h2>
+        </div>
+        <div id="company-snapshot-widget"></div>
+    </div>
+    <div id="content-announcement" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Announcement</h2>
+        </div>
+        <div id="corporate-news-widget"></div>
+    </div>
+    <div id="content-factsheet" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Fact Sheet</h2>
+        </div>
+        <div id="fact-sheet-table-widget"></div>
+    </div>
+    <div id="content-documents" class="content-panel">
+        <div class="scroll-area">
+            <div class="custom-header p-4"><h2>Corporate Documents</h2></div>
+        </div>
+        <div class="bg-white p-2 flex overflow-x-auto shrink-0">
+            <div class="doc-tabs flex-nowrap">
+                <button class="doc-tab active" data-tab-group="corp_docs" data-tab-target="cd-s1">Prospectus & Transfer Document</button>
+                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s2">Corporate Governance</button>
+                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s3">Annual Reports</button>
+                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s4">Shareholders Meeting</button>
+                <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s5">Investors Presentation</button>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto">
+            <div id="cd-s1" class="doc-content active space-y-3" data-tab-group="corp_docs">
+                <div class="doc-row">
+                    <p>Prospectus</p>
+                    <a href="https://gasarabian.com/wp-content/uploads/2022/08/GAS-Project_Final-Prospectus.pdf" target="_blank">
+                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                    </a>
+                </div>
+                <div class="doc-row">
+                    <p>Transfer Document (English)</p>
+                    <a href="https://gasarabian.com/wp-content/uploads/2025/09/Transfer-Document-En.pdf" target="_blank">
+                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                    </a>
+                </div>
+            </div>
+            <div id="cd-s2" class="doc-content space-y-3" data-tab-group="corp_docs">
+                <div class="doc-row">
+                    <p>Company By Laws</p>
+                    <a href="https://gasarabian.com/wp-content/uploads/2025/01/GAS-New-By-Laws.pdf" target="_blank">
+                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                    </a>
+                </div>
+                <!-- Other doc rows for cd-s2 -->
+            </div>
+            <div id="cd-s3" class="doc-content space-y-3" data-tab-group="corp_docs">
+                <div class="doc-row">
+                    <p>GAS Annual Report 2024</p>
+                    <a href="https://gasarabian.com/wp-content/uploads/2025/04/GAS-Annual-Report-2024_En.pdf" target="_blank">
+                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                    </a>
+                </div>
+                <!-- Other doc rows for cd-s3 -->
+            </div>
+            <div id="cd-s4" class="doc-content space-y-3" data-tab-group="corp_docs">
+                <div class="doc-row header">
+                    <p>Ordinary</p>
+                </div>
+                <!-- Other doc rows for cd-s4 -->
+            </div>
+            <div id="cd-s5" class="doc-content space-y-3" data-tab-group="corp_docs">
+                <div class="doc-row">
+                    <p>GAS Investor Presentation (March 2025)</p>
+                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/GAS-Company-Profile.pdf" target="_blank">
+                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                    </a>
+                </div>
+                <!-- Other doc rows for cd-s5 -->
+            </div>
+        </div>
+    </div>
+    <div id="content-analyst-recommendations" class="content-panel">
+        <div class="scroll-area">
+            <div class="custom-header p-4"><h2>Analyst Recommendations</h2></div>
+        </div>
+        <div class="p-4 overflow-y-auto">
+            <div class="space-y-3">
+                <div class="analyst-header">EFG Hermes</div>
+                <div class="analyst-row">
+                    <span>May 01, 2025</span>
+                    <a href="https://gasarabian.com/wp-content/uploads/2025/05/EFG-Hermes-01-May-2025.pdf" target="_blank">A Rising Star in KSA Industrials space</a>
+                </div>
+                <!-- Other analyst rows -->
+            </div>
+        </div>
+    </div>
+    <div id="content-corporate-actions" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Corporate Actions</h2>
+        </div>
+        <div id="corporate-actions-widget" class="w-full"></div>
+    </div>
+    <div id="content-financials" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Company Financials</h2>
+        </div>
+        <div id="company-financials-widget" class="w-full"></div>
+    </div>
+    <div id="content-share-information" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Share Information</h2>
+        </div>
+        <section id="stock_activity" class="irSEC">
+            <div class="cont2 hdr">
+                <h3 class="irH3">Stock Activity</h3>
+            </div>
+            <div class="cont2 hdr">
+                <div class="btn_menu">
+                    <nav class="nav_sa">
+                        <button onclick="showSectionSA('SAsection1', this)" class="active-btn">Simple</button>
+                        <button onclick="showSectionSA('SAsection2', this)">Advance</button>
+                    </nav>
+                </div>
+            </div>
+            <div class="cont2">
+                <section id="SAsection1" class="stockact active">
+                    <div style="width:100%; min-height:250px; background-color:#fff;">
+                        <div id="stock-activity-simple-widget"></div>
+                    </div>    
+                </section>
+                <section id="SAsection2" class="stockact">
+                    <div style="width:100%; min-height:250px; background-color:#fff;">
+                        <div id="stock-activity-advanced-widget"></div>
+                    </div>    
+                </section>
+            </div>
+        </section>
+        <section id="performance" class="irSEC">
+            <h3 class="ir-section-title">Stock Performance</h3>
+            <div class="cont2">
+                <div class="outerdiv">
+                    <div id="performance-widget"></div>
+                </div>
+            </div>
+        </section>
+        <div id="share-series-widget" class="irSEC"></div>
+    </div>
+    <div id="content-calculator" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Investment Calculator</h2>
+        </div>
+        <div id="investment-calculator-widget" class="w-full"></div>
+    </div>
+    <div id="content-subscription" class="content-panel">
+        <div class="scroll-area">
+            <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Email Subscription</h2>
+        </div>
+        <div id="email-subscription-widget" class="w-full"></div>
+    </div>
+    <div id="content-contact" class="content-panel">
+        <div class="scroll-area">
+            <div class="ir-contact-header custom-header p-4"><h2>Get in Touch with IR</h2></div>
+        </div>
+        <div class="p-6 md:p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <p class="font-bold">Official Email: <a href="mailto:IR@gasarabian.com" class="text-blue-600 hover:underline">IR@gasarabian.com</a></p>
+                    <div class="text-sm"><h4 class="text-blue-800 font-bold text-lg mb-1">Khalid Jamal Al Dabal</h4><p class="text-gray-600 leading-relaxed">Executive General Manager<br>Investor Relations &amp; Corporate Governance / Shared Services<br>Mob: +966 503 877 818<br>Tel: +966 13 835 1500 Ext. 808<br>Email: <a href="mailto:khalid.jamal@gasarabian.com" class="text-blue-600 hover:underline">khalid.jamal@gasarabian.com</a></p><a target="_blank" href="https://www.linkedin.com/in/khalid-j-aldabal-78267b31" class="text-blue-700 text-xl mt-1 inline-block"><i class="fa fa-linkedin-square"></i></a></div>
+                    <div class="text-sm"><h4 class="text-blue-800 font-bold text-lg mb-1">Majed Abdullah Al Zahrani</h4><p class="text-gray-600 leading-relaxed">Senior Team Leader<br>Investor Relations &amp; Corporate Governance<br>Tel: +966 13 835 1500 Ext. 478<br>Email: <a href="mailto:m.alzahrani@gasarabian.com" class="text-blue-600 hover:underline">m.alzahrani@gasarabian.com</a></p><a target="_blank" href="https://www.linkedin.com/in/majed-al-zahrani-377392139" class="text-blue-700 text-xl mt-1 inline-block"><i class="fa fa-linkedin-square"></i></a></div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl text-gray-700 mb-4">Send us a message</h3>
+                    <div class="space-y-4">
+                        <input type="text" name="Name" placeholder="Name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                        <input type="email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" name="company" placeholder="Organization/Company" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" name="phone" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                        <textarea name="message" rows="5" placeholder="Message" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+                        <button type="button" class="w-full bg-[#043244] text-white font-bold py-3 px-4 rounded-md hover:bg-opacity-90 transition-colors">Send Message</button>
                     </div>
                 </div>
-                <div id="content-analyst-recommendations" class="content-panel">
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
-                        <div class="custom-header p-4">
-                            <h2>Analyst Recommendations</h2>
-                        </div>
-                        <div class="p-4 overflow-y-auto">
-                            <div class="space-y-3">
-                                <div class="analyst-header">EFG Hermes</div>
-                                <div class="analyst-row">
-                                    <span>May 01, 2025</span>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/05/EFG-Hermes-01-May-2025.pdf" target="_blank">A Rising Star in KSA Industrials space</a>
-                                </div>
-                                <div class="analyst-header">GIB Capital</div>
-                                <div class="analyst-row">
-                                    <span>February 27, 2025</span>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2025/02/Gas-Arabian_27-Feb-2025-EN.pdf" target="_blank">Robust Backlog with Sizable Execution in 2025-26</a>
-                                </div>
-                                <div class="analyst-row">
-                                    <span>April 24, 2024</span>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2024/05/Gas-Arabian_24April-2024-EN.pdf" target="_blank">Record Order Book &semi; Raise TP to SAR 12 / share</a>
-                                </div>
-                                <div class="analyst-row">
-                                    <span>October 12, 2023</span>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/10/Gas-Arabian_12Oct-2023-EN.pdf" target="_blank">Growing Order Book &semi; Maintain Overweight</a>
-                                </div>
-                                <div class="analyst-row">
-                                    <span>May 25, 2023</span>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/10/Gas-Arabian_25May-2023-EN.pdf" target="_blank">Solid 2022 Performance &semi; Maintain Overweight</a>
-                                </div>
-                                <div class="analyst-row">
-                                    <span>December 06, 2022</span>
-                                    <a href="https://gasarabian.com/wp-content/uploads/2023/10/Gas-Arabian_6Dec2022_EN.pdf" target="_blank">Beneficiary of Pick-up in Oil &amp; Gas Capex</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="content-corporate-actions" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Corporate Actions</h2><div id="corporate-actions-widget" class="w-full"></div></div>
-                <div id="content-financials" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Company Financials</h2><div id="company-financials-widget" class="w-full"></div></div>
-                <div id="content-share-information" class="content-panel">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Share Information</h2>
-                    <section id="stock_activity" class="irSEC">
-                        <div class="cont2 hdr">
-                            <h3 class="irH3">Stock Activity</h3>
-                        </div>
-                        <div class="cont2 hdr">
-                            <div class="btn_menu">
-                                <nav class="nav_sa">
-                                    <button onclick="showSectionSA('SAsection1', this)" class="active-btn">Simple</button>
-                                    <button onclick="showSectionSA('SAsection2', this)">Advance</button>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="cont2">
-                            <section id="SAsection1" class="stockact active">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
-                                    <div id="stock-activity-simple-widget"></div>
-                                </div>    
-                            </section>
-                            <section id="SAsection2" class="stockact">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
-                                    <div id="stock-activity-advanced-widget"></div>
-                                </div>    
-                            </section>
-                        </div>
-                    </section>
-                    <section id="performance" class="irSEC">
-                        <h3 class="ir-section-title">Stock Performance</h3>
-                        <div class="cont2">
-                            <div class="outerdiv">
-                                <div id="performance-widget"></div>
-                            </div>
-                        </div>
-                    </section>
-                    <div id="share-series-widget" class="irSEC"></div>
-                </div>
-                <div id="content-calculator" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Investment Calculator</h2><div id="investment-calculator-widget" class="w-full"></div></div>
-                <div id="content-subscription" class="content-panel"><h2 class="text-3xl lg:text-4xl font-bold text-blue-500 mb-8">Email Subscription</h2><div id="email-subscription-widget" class="w-full"></div></div>
-                <div id="content-contact" class="content-panel">
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden"><div class="ir-contact-header custom-header p-4"><h2>Get in Touch with IR</h2></div>
-                        <div class="p-6 md:p-8">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                <div class="space-y-6">
-                                    <p class="font-bold">Official Email: <a href="mailto:IR@gasarabian.com" class="text-blue-600 hover:underline">IR@gasarabian.com</a></p>
-                                    <div class="text-sm"><h4 class="text-blue-800 font-bold text-lg mb-1">Khalid Jamal Al Dabal</h4><p class="text-gray-600 leading-relaxed">Executive General Manager<br>Investor Relations &amp; Corporate Governance / Shared Services<br>Mob: +966 503 877 818<br>Tel: +966 13 835 1500 Ext. 808<br>Email: <a href="mailto:khalid.jamal@gasarabian.com" class="text-blue-600 hover:underline">khalid.jamal@gasarabian.com</a></p><a target="_blank" href="https://www.linkedin.com/in/khalid-j-aldabal-78267b31" class="text-blue-700 text-xl mt-1 inline-block"><i class="fa fa-linkedin-square"></i></a></div>
-                                    <div class="text-sm"><h4 class="text-blue-800 font-bold text-lg mb-1">Majed Abdullah Al Zahrani</h4><p class="text-gray-600 leading-relaxed">Senior Team Leader<br>Investor Relations &amp; Corporate Governance<br>Tel: +966 13 835 1500 Ext. 478<br>Email: <a href="mailto:m.alzahrani@gasarabian.com" class="text-blue-600 hover:underline">m.alzahrani@gasarabian.com</a></p><a target="_blank" href="https://www.linkedin.com/in/majed-al-zahrani-377392139" class="text-blue-700 text-xl mt-1 inline-block"><i class="fa fa-linkedin-square"></i></a></div>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-xl text-gray-700 mb-4">Send us a message</h3>
-                                    <div class="space-y-4">
-                                        <input type="text" name="Name" placeholder="Name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
-                                        <input type="email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
-                                        <input type="text" name="company" placeholder="Organization/Company" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
-                                        <input type="text" name="phone" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
-                                        <textarea name="message" rows="5" placeholder="Message" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
-                                        <button type="button" class="w-full bg-[#043244] text-white font-bold py-3 px-4 rounded-md hover:bg-opacity-90 transition-colors">Send Message</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
+        </div>
+    </div>
+</section>
         </div>
     </section>
-    
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     // Fallback for loadWidget if the external script fails to load
@@ -865,17 +784,34 @@
                 });
             });
 
-            // Attach wheel event to the entire document for desktop scrolling
-            document.addEventListener('wheel', (e) => {
-                // Only handle scroll if iframe is active (controlled by parent)
-                if (window.parent.document.querySelector('.desktop-iframe.active-iframe')) {
-                    e.preventDefault(); // Prevent default scroll to control panel switching
-                    handleScroll(e);
-                }
-            }, { passive: false });
+            // Attach wheel event to the scroll-area of the active panel
+            const updateScrollListener = () => {
+                // Remove existing listeners to prevent duplicates
+                document.querySelectorAll('.scroll-area').forEach(area => {
+                    area.removeEventListener('wheel', handleScroll);
+                });
 
-            // Initialize with first panel
+                // Attach listener to the scroll-area of the active panel
+                const activePanel = Array.from(contentPanels).find(panel => panel.classList.contains('active'));
+                if (activePanel) {
+                    const scrollArea = activePanel.querySelector('.scroll-area');
+                    if (scrollArea && window.parent.document.querySelector('.desktop-iframe.active-iframe')) {
+                        scrollArea.addEventListener('wheel', (e) => {
+                            e.preventDefault(); // Prevent default scroll to control panel switching
+                            handleScroll(e);
+                        }, { passive: false });
+                    }
+                }
+            };
+
+            // Update scroll listener when panel changes
+            contentPanels.forEach(panel => {
+                panel.addEventListener('transitionend', updateScrollListener);
+            });
+
+            // Initial setup
             navigateTo('content-overview');
+            updateScrollListener();
         } else {
             // Mobile: Use IntersectionObserver for scroll-based highlighting
             const mobileObserver = new IntersectionObserver((entries) => {
