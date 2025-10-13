@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useScreenSize } from './hooks/useScreenSize';
 import { SECTIONS } from './constants';
@@ -93,7 +92,7 @@ const App: React.FC = () => {
     
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <header className="text-center mb-8">
+            <header className="text-left mb-8">
                 <h1 className="text-4xl sm:text-5xl font-bold text-dark-blue">Investor Resources</h1>
             </header>
 

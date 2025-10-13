@@ -5,91 +5,76 @@ interface WidgetLoaderProps {
   isActive: boolean;
 }
 
+const WIDGET_LOADER_POLL_INTERVAL = 100; // ms
+const WIDGET_LOADER_POLL_TIMEOUT = 3000; // ms
+
 export const WidgetLoader: React.FC<WidgetLoaderProps> = ({ widgetId, isActive }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const isLoaded = useRef(false);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!isActive || !container) {
+      // Reset loading state if component becomes inactive
+      if (!isActive) setIsLoading(true);
       return;
     }
 
-    // If widget is already loaded, just reinitialize it.
-    if (isLoaded.current) {
-      if (window.WidgetLoader && typeof window.WidgetLoader.reinit === 'function') {
-        try {
-          window.WidgetLoader.reinit(widgetId);
-        } catch (err) {
-          console.error(`Failed to reinitialize widget ${widgetId}:`, err);
-        }
-      }
-      return;
-    }
-
-    const attemptToLoadWidget = () => {
-      if (!window.WidgetLoader) {
-        console.error("Widget loader script not available.");
-        setError("Widget loader script not available.");
-        setIsLoading(false);
-        return;
-      }
-
+    const loadWidget = () => {
       try {
-        window.WidgetLoader.load(widgetId, container);
-        isLoaded.current = true;
+        if (isLoaded.current) {
+          if (typeof window.WidgetLoader.reinit === 'function') {
+            window.WidgetLoader.reinit(widgetId);
+          }
+        } else {
+          window.WidgetLoader.load(widgetId, container);
+          isLoaded.current = true;
+        }
         setError(null);
       } catch (err) {
-        console.error(`Failed to load widget ${widgetId}:`, err);
-        setError(`Failed to load widget: ${widgetId}`);
+        const errorMsg = `Failed to load or reinitialize widget: ${widgetId}`;
+        console.error(errorMsg, err);
+        setError(errorMsg);
       } finally {
         setIsLoading(false);
       }
     };
 
-    setIsLoading(true);
-    setError(null);
+    let pollAttempts = 0;
+    const maxPollAttempts = WIDGET_LOADER_POLL_TIMEOUT / WIDGET_LOADER_POLL_INTERVAL;
 
-    // If WidgetLoader is already available, load immediately.
-    if (window.WidgetLoader) {
-      attemptToLoadWidget();
-      return;
-    }
-
-    // Otherwise, poll for the script.
-    const intervalId = setInterval(() => {
-      if (window.WidgetLoader) {
-        clearInterval(intervalId);
-        clearTimeout(timeoutId);
-        attemptToLoadWidget();
+    const poll = setInterval(() => {
+      if (typeof window.WidgetLoader !== 'undefined') {
+        clearInterval(poll);
+        loadWidget();
+      } else {
+        pollAttempts++;
+        if (pollAttempts > maxPollAttempts) {
+          clearInterval(poll);
+          const errorMsg = `Widget loader script did not become available within ${WIDGET_LOADER_POLL_TIMEOUT / 1000}s.`;
+          console.error(errorMsg);
+          setError(errorMsg);
+          setIsLoading(false);
+        }
       }
-    }, 200);
-
-    const timeoutId = setTimeout(() => {
-      clearInterval(intervalId);
-      if (!isLoaded.current) {
-        console.error("Timed out waiting for Widget Loader script.");
-        attemptToLoadWidget(); // This will now fail with a proper error message
-      }
-    }, 10000); // 10 seconds timeout
+    }, WIDGET_LOADER_POLL_INTERVAL);
 
     return () => {
-      clearInterval(intervalId);
-      clearTimeout(timeoutId);
+      clearInterval(poll);
     };
   }, [isActive, widgetId]);
 
   return (
     <div ref={containerRef} className="w-full h-full min-h-[400px]">
-      {isLoading && (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-gray-500">Loading Widget...</p>
+      {isActive && isLoading && !error && (
+        <div className="flex items-center justify-center h-full p-4 text-center">
+          <p className="text-gray-500">Loading widget...</p>
         </div>
       )}
       {error && (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full p-4 text-center">
           <p className="text-red-500">{error}</p>
         </div>
       )}
