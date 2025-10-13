@@ -1083,7 +1083,1156 @@
                     });
 
                     document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                        item.addEventListener('click', (e) => {ش<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://irp.atnmo.com/v2/widget/widget-loader.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-blue: #142C3C;
+            --header-blue: #008cdd;
+            --light-blue-doc: #1ABCFF; 
+            --light-grey-bg: #ffffff;
+        }
+        html, body {
+            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (min-width: 1024px) {
+            #ir-sticky-frame {
+                position: sticky;
+                top: 0;
+            }
+            .content-main { 
+                position: relative; 
+                height: 100vh; 
+                flex-grow: 1;
+            }
+            .content-panel {
+                position: absolute; 
+                top: 4rem; 
+                right: 0; 
+                bottom: 0; 
+                left: 0; 
+                opacity: 0; 
+                visibility: hidden;
+                transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+                transform: translateY(30px);
+                display: flex; 
+                flex-direction: column;
+                justify-content: flex-start; 
+                padding: 2rem;
+                overflow-y: auto;
+            }
+            .content-panel.active { 
+                opacity: 1; 
+                visibility: visible; 
+                transform: translateY(0);
+                z-index: 10;
+            }
+            .sidebar-container {
+                padding-top: 2rem;
+                padding-left: 0.5rem;
+                width: 250px;
+            }
+            .ground-handling-nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .ground-handling-nav ul li a {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: #6b7280;
+                text-decoration: none;
+                margin-bottom: 0.5rem;
+                transition: color 0.3s;
+            }
+            .ground-handling-nav ul li a .circle {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: url('https://cdn.prod.website-files.com/68e22dd789a5744b2cdcf9d5/68e3751981652ed98f4169e3_Ellipse%201.svg') no-repeat center center;
+                background-size: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 500;
+                color: #374151;
+                transition: background 0.3s ease, color 0.3s ease;
+            }
+            .ground-handling-nav ul li a.active .circle,
+            .ground-handling-nav ul li a:hover .circle {
+                background: var(--header-blue);
+                background-image: none;
+                color: white;
+            }
+            .ground-handling-nav ul li a.active {
+                color: #111827;
+                font-weight: 500;
+            }
+            .ground-handling-nav ul li a i {
+                font-style: normal;
+            }
+            .ground-handling-nav ul li a:hover {
+                color: #111827;
+            }
+            
+            .fact-sheet-component {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+            
+            .fact-sheet-content-area {
+                flex-grow: 1;
+                overflow-y: auto;
+                position: relative;
+            }
+            
+            .fact-sheet-tab-content {
+                position: static;
+                padding: 1rem;
+            }
+            .fact-sheet-tab-content.active {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            .content-panel {
+                padding: 1rem;
+                min-height: 90vh;
+            }
+        }
+
+        .doc-tab.active { 
+            color: var(--dark-blue) !important;
+            font-weight: 500;
+            position: relative;
+        }
+        .doc-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; 
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--dark-blue);
+        }
+        
+        .doc-content { display: none; }
+        .doc-content.active { display: block; }
+        .mobile-nav-item { transition: all 0.3s ease; }
+        .mobile-nav-item.active { background-color: var(--dark-blue); color: white; }
+        .mobile-nav-container::-webkit-scrollbar { display: none; }
+        
+        .doc-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 0; 
+            color: var(--light-blue-doc);
+            font-weight: 500;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            background-color: transparent; 
+            border-bottom: 2px solid transparent; 
+            white-space: nowrap; 
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+        .doc-tab:hover {
+            color: var(--dark-blue); 
+            background-color: transparent;
+        }
+        
+        .doc-tabs-container {
+            padding: 0 1rem; 
+            display: flex; 
+            flex-wrap: nowrap; 
+            overflow-x: hidden; 
+        }
+        
+        .doc-content .doc-row p {
+            color: var(--dark-blue);
+            font-weight: 400;
+        }
+
+        .doc-content .doc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: white;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(26, 188, 255, 0.3); 
+        }
+        .doc-content .doc-row a {
+            color: var(--light-blue-doc);
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .doc-content .doc-row a img {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        
+        .doc-content .doc-row.header {
+            background-color: var(--light-grey-bg);
+            color: var(--dark-blue);
+            font-weight: 400;
+            padding: 0.5rem 0.75rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0;
+            border-bottom: 1px solid var(--dark-blue); 
+        }
+        .doc-content .doc-row.header p {
+            font-weight: 400;
+            color: var(--dark-blue); 
+        }
+        #cd-s4 .doc-row:not(.header) {
+            background-color: white;
+        }
+        
+        .analyst-firm-title {
+            color: var(--dark-blue);
+            font-size: 1rem;
+            font-weight: 700;
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .analyst-recommendations-container .analyst-firm-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .analyst-recommendation-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .analyst-recommendation-row span {
+            width: 160px;
+            color: var(--dark-blue);
+            font-weight: 400;
+            flex-shrink: 0;
+            font-size: 0.95rem;
+        }
+
+        .analyst-recommendation-row a {
+            color: var(--dark-blue);
+            font-weight: 700;
+            text-decoration: none;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+        
+        .analyst-recommendations-container .divider {
+            width: 100%;
+            height: 2px;
+            background-color: var(--light-blue-doc);
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 640px) {
+            .analyst-recommendation-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .analyst-recommendation-row span {
+                width: auto;
+                margin-bottom: 0.25rem;
+            }
+        }
+        
+        .fact-sheet-component {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; 
+            width: 100%; 
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+            border-radius: 0.375rem; 
+        }
+        
+        .tab-bar {
+            width: 100%; 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background-color: var(--dark-blue);
+            border-bottom: none; 
+        }
+        
+        .fact-tab-button {
+            background-color: var(--dark-blue); 
+            color: white; 
+            font-weight: 500;
+            cursor: pointer;
+            padding: 10px 20px; 
+            transition: all 0.3s;
+            border: none;
+            outline: none;
+            text-align: center;
+            font-size: 1rem;
+            margin-right: 0; 
+            position: relative;
+            z-index: 1; 
+        }
+        .fact-tab-button.active {
+            background-color: var(--header-blue);
+            color: white;
+            box-shadow: none; 
+            border-bottom: none;
+        }
+        
+        .fact-sheet-tab-content {
+            display: none;
+            padding: 0; 
+        }
+        .fact-sheet-tab-content.active {
+            display: block;
+        }
+        #fact-sheet-table-widget {
+             min-height: 1500px;
+             width: 100%;
+             display: block;
+        }
+        #fact-sheet-charts-widget,
+        #fact-sheet-charts-widget iframe {
+             height: 8000px !important;
+             width: 100%;
+             display: block;
+        }
+        
+        .irSEC {
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+        .irH3 {
+            font-size: 1.875rem;
+            font-weight: 400;
+            color: #1f2937;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .cont2 {
+            padding: 0; 
+        }
+        .outerdiv {
+            width: 100%;
+        }
+        .nav_sa {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav_sa button {
+            background: none;
+            border: none;
+            color: var(--light-blue-doc);
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s;
+        }
+        .nav_sa button.active-btn {
+            color: var(--dark-blue);
+            font-weight: 700;
+            border-bottom: 2px solid var(--dark-blue);
+        }
+        .nav_sa button:hover {
+            color: var(--dark-blue);
+        }
+        .stockact {
+            display: none;
+        }
+        .stockact.active {
+            display: block;
+        }
+        @media (min-width: 1024px) {
+            .irSEC {
+                padding: 2rem;
+            }
+            .irH3 {
+                font-size: 2.25rem;
+            }
+        }
+        @media (max-width: 640px) {
+            .irSEC {
+                padding: 1rem;
+            }
+            .irH3 {
+                font-size: 1.5rem;
+            }
+            .nav_sa {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-7xl mx-auto px-6 md:px-8 pt-8 lg:pt-8">
+        <h1 class="text-4xl sm:text-5xl font-normal mb-8" style="color: #142C3C;">Investor Resources</h1>
+    </div>
+
+    <section id="ir-sticky-frame" class="pt-0 pb-8 lg:pb-12">
+        <div class="max-w-7xl mx-auto px-6 md:px-8 flex flex-col lg:flex-row lg:h-screen bg-white">
+            <div id="mobile-nav-bar" class="lg:hidden sticky top-0 bg-white/80 backdrop-blur-sm z-40 p-2 w-full">
+                <div class="mobile-nav-container flex flex-wrap justify-center items-center gap-2 bg-black/10 rounded-3xl p-2"></div>
+            </div>
+
+            <aside class="sidebar-container hidden lg:flex w-full lg:w-[250px] shrink-0 self-start">
+                <div class="ground-handling-nav hidden md:block">
+                    <ul>
+                        <li><a href="#content-overview" class="active"><span class="circle">1</span><i>Company Overview</i></a></li>
+                        <li><a href="#content-announcement"><span class="circle">2</span><i>Announcement</i></a></li>
+                        <li><a href="#content-factsheet"><span class="circle">3</span><i>Fact Sheet</i></a></li>
+                        <li><a href="#content-documents"><span class="circle">4</span><i>Corporate Documents</i></a></li>
+                        <li><a href="#content-analyst-recommendations"><span class="circle">5</span><i>Analyst Recommendations</i></a></li>
+                        <li><a href="#content-corporate-actions"><span class="circle">6</span><i>Corporate Actions</i></a></li>
+                        <li><a href="#content-financials"><span class="circle">7</span><i>Company Financials</i></a></li>
+                        <li><a href="#content-share-information"><span class="circle">8</span><i>Share Information</i></a></li>
+                        <li><a href="#content-calculator"><span class="circle">9</span><i>Investment Calculator</i></a></li>
+                        <li><a href="#content-subscription"><span class="circle">10</span><i>Email Subscription</i></a></li>
+                        <li><a href="#content-contact"><span class="circle">11</span><i>Get in Touch with IR</i></a></li>
+                    </ul>
+                </div>
+            </aside>
+            
+            <section class="content-main w-full bg-white flex-grow">
+                <div id="content-overview" class="content-panel active bg-[#ffffff]">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Company Overview</h2>
+                    <div id="company-snapshot-widget"></div>
+                </div>
+                
+                <div id="content-announcement" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Announcement</h2>
+                    <div id="corporate-news-widget"></div>
+                </div>
+                
+                <div id="content-factsheet" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Fact Sheet</h2>
+                    
+                    <div class="fact-sheet-component">
+                        <div class="tab-bar">
+                            <button class="fact-tab-button active" data-target="table">Table</button>
+                            <button class="fact-tab-button" data-target="chart">Chart</button>
+                        </div>
+
+                        <div class="fact-sheet-content-area">
+                            <div id="fact-sheet-table-content" class="fact-sheet-tab-content active">
+                                <div id="fact-sheet-table-widget"></div> 
+                            </div>
+
+                            <div id="fact-sheet-chart-content" class="fact-sheet-tab-content">
+                                <div id="fact-sheet-charts-widget"><iframe loading="lazy" id="fact-sheet-charts-frame" src="https://irp.atnmo.com/v2/widget/fact-sheet-charts?UUID=0bee5720-84b6-497f-8ac9-e1f3a759924e&amp;lang=en&amp;listingId=574a24a5-496e-4c9f-87c4-e11540313853" width="100%" scrolling="no" frameborder="0"></iframe></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="content-documents" class="content-panel"> 
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
+                        <div class="p-8 pb-0">
+                            <h2 class="text-4xl font-normal" style="color: #1ABCFF;">Corporate Documents</h2>
+                        </div>
+                        <div class="bg-white pt-4 pb-2 border-b border-gray-200 shrink-0">
+                            <div class="doc-tabs-container">
+                                <div class="doc-tabs flex-nowrap">
+                                    <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s1">Prospectus & Transfer Document</button>
+                                    <button class="doc-tab active" data-tab-group="corp_docs" data-tab-target="cd-s2">Corporate Governance</button>
+                                    <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s3">Annual Reports</button>
+                                    <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s4">Shareholders Meeting</button>
+                                    <button class="doc-tab" data-tab-group="corp_docs" data-tab-target="cd-s5">Investors Presentation</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 overflow-y-auto">
+                            <div id="cd-s1" class="doc-content space-y-3" data-tab-group="corp_docs">
+                                <div class="doc-row">
+                                    <p>Prospectus</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2022/08/GAS-Project_Final-Prospectus.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Transfer Document (English)</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/09/Transfer-Document-En.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="cd-s2" class="doc-content active space-y-3" data-tab-group="corp_docs">
+                                <div class="doc-row">
+                                    <p>Company By Laws</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/01/GAS-New-By-Laws.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Nomination & Renumeration Committee By Laws</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2023/05/NRC-Bylaws-Ar-En-Rev.01.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Dividend Policy</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2024/05/GAS-Dividend-Policy-Rev.2.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Board Membership Policy</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Board-Membership-Policy.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Protecting Shareholder’s Rights Policy</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Protecting-Shareholders-Rights-Policy-1.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Conflict of Interest Policy</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/09/GAS-Conflict-of-Interest-Policy-Rev.-0.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Audit Committee Charter</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2023/08/Audit-Committee-Bylaws-Ar-En-Rev.02.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Governance Procedures</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2023/11/GAS-Governance-Procedures.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Regulating the Relationship with Stakeholders Policy</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Regulating-the-Relationship-with-Stakeholders-Policy.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Competition Business Standards</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Competition-Business-Standards.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>Disclosure and Transparency Policy</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/Disclosure-and-Transparency-Policy-1.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="cd-s3" class="doc-content space-y-3" data-tab-group="corp_docs">
+                                <div class="doc-row">
+                                    <p>GAS Annual Report 2024</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/04/GAS-Annual-Report-2024_En.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>GAS Annual Report 2023</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2024/05/GAS-Annual-Report-2023-En.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>GAS Annual Report 2022</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2023/04/Board-Report-2022-En.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>GAS Annual Report 2021</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2022/09/GAS-Board-Report_FY-2021_En.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="cd-s4" class="doc-content space-y-3" data-tab-group="corp_docs">
+                                <div class="doc-row header">
+                                    <p>Ordinary</p>
+                                </div>
+                                <div class="doc-row">
+                                    <p><a href="https://gasarabian.com/wp-content/uploads/2025/05/Minutes-of-Meeting-of-GAS-Shareholders.pdf" target="_blank">May 11, 2025</a></p>
+                                </div>
+                                <div class="doc-row header">
+                                    <p>Extra Ordinary</p>
+                                </div>
+                                <div class="doc-row">
+                                    <p><a href="https://gasarabian.com/wp-content/uploads/2024/12/Minutes-of-Meeting-of-GAS-Shareholders_10-12-24-.pdf" target="_blank">December 10, 2024</a></p>
+                                </div>
+                                <div class="doc-row">
+                                    <p><a href="https://gasarabian.com/wp-content/uploads/2024/07/May-14-2024.pdf" target="_blank">May 14, 2024</a></p>
+                                </div>
+                                <div class="doc-row">
+                                    <p><a href="https://gasarabian.com/wp-content/uploads/2023/08/MoM-of-GAS-EGM-08-08-2023.pdf" target="_blank">August 08, 2023</a></p>
+                                </div>
+                                <div class="doc-row">
+                                    <p><a href="https://gasarabian.com/wp-content/uploads/2023/05/Extraordinary-General-Assembly-Minutes-10-Apr-22-2023.pdf" target="_blank">April 10, 2023</a></p>
+                                </div>
+                                <div class="doc-row">
+                                    <p><a href="https://gasarabian.com/wp-content/uploads/2022/06/Extraordinary-General-Assembly-Minutes-11-Apr-22-1.pdf" target="_blank">April 11, 2022</a></p>
+                                </div>
+                            </div>
+                            <div id="cd-s5" class="doc-content space-y-3" data-tab-group="corp_docs">
+                                <div class="doc-row">
+                                    <p>GAS Investor Presentation (March 2025)</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2025/07/GAS-Company-Profile.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>GAS Investor Presentation (September 2024)</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2024/12/GAS-Investor-Presentation.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                                <div class="doc-row">
+                                    <p>GAS Investor Presentation (December 2023)</p>
+                                    <a href="https://gasarabian.com/wp-content/uploads/2023/11/GAS-Investor-Presentation.pdf" target="_blank">
+                                        <img src="https://gasarabian.com/wp-content/themes/gasarabian/images/gas/icon-pdf.png"> Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="content-analyst-recommendations" class="content-panel" style="background-color: var(--light-grey-bg);">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Analyst Recommendations</h2>
+                    
+                    <div class="analyst-recommendations-container">
+                        <span class="analyst-firm-title">EFG Hermes</span>
+                        <div class="analyst-recommendation-row">
+                            <span>May 01, 2025</span>
+                            <a href="https://gasarabian.com/wp-content/uploads/2025/05/EFG-Hermes-01-May-2025.pdf" target="_blank">
+                                A Rising Star in KSA Industrials space
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                        
+                        <span class="analyst-firm-title">GIB Capital</span> 
+                        <div class="analyst-recommendation-row">
+                            <span>February 27, 2025</span>
+                            <a href="https://gasarabian.com/wp-content/uploads/2025/02/Gas-Arabian_27-Feb-2025-EN.pdf" target="_blank">
+                                Robust Backlog with Sizable Execution in 2025-26
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                        
+                        <div class="analyst-recommendation-row">
+                            <span>April 24, 2024</span>
+                            <a href="https://gasarabian.com/wp-content/uploads/2024/05/Gas-Arabian_24April-2024-EN.pdf" target="_blank">
+                                Record Order Book ; Raise TP to SAR 12 / share
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                        
+                        <div class="analyst-recommendation-row">
+                            <span>October 12, 2023</span>
+                            <a href="https://gasarabian.com/wp-content/uploads/2023/10/Gas-Arabian_12Oct-2023-EN.pdf" target="_blank">
+                                Growing Order Book ; Maintain Overweight
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                        
+                        <div class="analyst-recommendation-row">
+                            <span>May 25, 2023</span>
+                            <a href="https://gasarabian.com/wp-content/uploads/2023/10/Gas-Arabian_25May-2023-EN.pdf" target="_blank">
+                                Solid 2022 Performance ; Maintain Overweight
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                        
+                        <div class="analyst-recommendation-row">
+                            <span>December 06, 2022</span>
+                            <a href="https://gasarabian.com/wp-content/uploads/2023/10/Gas-Arabian_6Dec2022_EN.pdf" target="_blank">
+                                Beneficiary of Pick-up in Oil & Gas Capex
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <div id="content-corporate-actions" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Corporate Actions</h2>
+                    <div id="corporate-actions-widget" class="w-full"></div>
+                </div>
+                
+                <div id="content-financials" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Company Financials</h2>
+                    <div id="company-financials-widget" class="w-full"></div>
+                </div>
+                
+                <div id="content-share-information" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Share Information</h2>
+                    <section id="stock_activity" class="irSEC">
+                        <div class="cont2 hdr">
+                            <h3 class="irH3">Stock Activity</h3>
+                        </div>
+                        <div class="cont2 hdr">
+                            <div class="btn_menu">
+                                <nav class="nav_sa">
+                                    <button onclick="showSectionSA('SAsection1', this)" class="active-btn">Simple</button>
+                                    <button onclick="showSectionSA('SAsection2', this)">Advance</button>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="cont2">
+                            <section id="SAsection1" class="stockact active">
+                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                    <div id="stock-activity-simple-widget"><script>loadWidget('stock-activity-simple', "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853","v2");</script></div>
+                                </div>    
+                            </section>
+                            <section id="SAsection2" class="stockact">
+                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                    <div id="stock-activity-advanced-widget"><script>loadWidget('stock-activity-advanced', "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853","v2");</script></div>
+                                </div>    
+                            </section>
+                        </div>
+                    </section>
+                    <section id="performance" class="irSEC">
+                        <h3 class="irH3" style="font-weight: normal; color: #1ABCFF;">Stock Performance</h3>
+                        <div class="cont2">
+                            <div class="outerdiv">
+                                <div id="performance-widget"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <div id="share-series-widget" class="irSEC"></div>
+                </div>
+                
+                <div id="content-calculator" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Investment Calculator</h2>
+                    <div id="investment-calculator-widget" class="w-full"></div>
+                </div>
+                
+                <div id="content-subscription" class="content-panel">
+                    <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Email Subscription</h2>
+                    <div id="email-subscription-widget" class="w-full"></div>
+                </div>
+                <div id="content-contact" class="content-panel bg-white">
+                    <div class="outerdiv p-0 md:p-8">
+                        <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Get in Touch with IR</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div class="space-y-6">
+                                <p class="font-normal" style="color: #142C3C; font-weight: 500;">
+                                    Official Email: <a href="mailto:IR@gasarabian.com" class="hover:underline" style="color: #008cdd; font-weight: 400;">IR@gasarabian.com</a>
+                                </p>
+
+                                <div class="text-sm">
+                                    <h4 class="text-lg mb-1" style="color: #142C3C; font-weight: 500;">Khalid Jamal Al Dabal</h4>
+                                    <p class="leading-relaxed" style="color: #374151;">
+                                        Executive General Manager<br>
+                                        Investor Relations & Corporate Governance / Shared Services<br>
+                                        Mob: +966 503 877 818<br>
+                                        Tel: +966 13 835 1500 Ext. 808<br>
+                                        Email: <a href="mailto:khalid.jamal@gasarabian.com" class="hover:underline" style="color: #008cdd;">khalid.jamal@gasarabian.com</a>
+                                    </p>
+                                    <a target="_blank" href="https://www.linkedin.com/in/khalid-j-aldabal-78267b31" class="text-xl mt-1 inline-block" style="color: #008cdd;">
+                                        <i class="fa fa-linkedin-square"></i>
+                                    </a>
+                                </div>
+
+                                <div class="text-sm">
+                                    <h4 class="text-lg mb-1" style="color: #142C3C; font-weight: 500;">Majed Abdullah Al Zahrani</h4>
+                                    <p class="leading-relaxed" style="color: #374151;">
+                                        Senior Team Leader<br>
+                                        Investor Relations & Corporate Governance<br>
+                                        Tel: +966 13 835 1500 Ext. 478<br>
+                                        Email: <a href="mailto:m.alzahrani@gasarabian.com" class="hover:underline" style="color: #008cdd;">m.alzahrani@gasarabian.com</a>
+                                    </p>
+                                    <a target="_blank" href="https://www.linkedin.com/in/majed-al-zahrani-377392139" class="text-xl mt-1 inline-block" style="color: #008cdd;">
+                                        <i class="fa fa-linkedin-square"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="font-normal text-xl mb-4" style="color: #142C3C;">Send us a message</h3>
+                                <div class="space-y-4">
+                                    <input type="text" name="Name" placeholder="Name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                                    <input type="email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                                    <input type="text" name="company" placeholder="Organization/Company" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                                    <input type="text" name="phone" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                                    <textarea name="message" rows="5" placeholder="Message" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+                                    <button type="button" class="w-full text-white font-normal py-3 px-4 rounded-md transition-colors" style="background-color: #043244; hover:background-color: #043244D9;">Send Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        window.loadWidget = window.loadWidget || function(widgetId, companyId, lang, apiKey, version) {
+            console.warn(`loadWidget function is not defined. Attempted to load widget: ${widgetId}`);
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+            if (widgetElement) {
+                if (widgetId !== 'fact-sheet-charts') {
+                    widgetElement.innerHTML = `<p class="text-red-600">Error: Unable to load ${widgetId} widget. Please ensure widget-loader.js is accessible or check network/console for errors.</p>`;
+                }
+            }
+        };
+
+        function checkWidgetLoaded(widgetId, retryCount = 0, maxRetries = 3) {
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+            if (!widgetElement) return;
+
+            setTimeout(() => {
+                const content = widgetElement.innerHTML.trim();
+                const hasError = content.includes('Error') || content === '' || widgetElement.children.length === 0;
+                
+                if (hasError) {
+                    console.warn(`Widget ${widgetId} failed to load properly.`);
+                    widgetElement.innerHTML = `<p class="text-yellow-600">Warning: Widget ${widgetId} did not load correctly. Retrying... (Attempt ${retryCount + 1}/${maxRetries})</p>`;
+                    
+                    if (retryCount < maxRetries) {
+                        console.log(`Retrying to load widget: ${widgetId}`);
+                        try {
+                            loadWidget(widgetId, "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853", "v2");
+                            checkWidgetLoaded(widgetId, retryCount + 1, maxRetries);
+                        } catch (error) {
+                            console.error(`Retry failed for ${widgetId}:`, error);
+                            widgetElement.innerHTML = `<p class="text-red-600">Error: Failed to load ${widgetId} widget after retries. Check console for details.</p>`;
+                        }
+                    } else {
+                        widgetElement.innerHTML = `<p class="text-red-600">Error: Failed to load ${widgetId} widget after ${maxRetries} attempts. Possible issues: Network error, script blocked, or server unavailable.</p>`;
+                    }
+                } else {
+                    console.log(`Widget ${widgetId} loaded successfully.`);
+                }
+            }, 5000);
+        }
+
+        function showSectionSA(sectionId, button) {
+            const sections = document.querySelectorAll('.stockact');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+
+            const buttons = document.querySelectorAll('.nav_sa button');
+            buttons.forEach(btn => btn.classList.remove('active-btn'));
+            button.classList.add('active-btn');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 800, once: true });
+
+            const companyId = "0bee5720-84b6-497f-8ac9-e1f3a759924e";
+            const apiKey = "574a24a5-496e-4c9f-87c4-e11540313853";
+            const lang = "en";
+
+            const widgets = [
+                'company-snapshot',
+                'corporate-news',
+                'fact-sheet-table',
+                'corporate-actions',
+                'company-financials',
+                'stock-activity-simple',
+                'stock-activity-advanced',
+                'performance',
+                'share-series',
+                'investment-calculator',
+                'email-subscription',
+            ];
+
+            if (typeof window.loadWidget === 'function' && !window.loadWidget.toString().includes('native code')) {
+                widgets.forEach(widget => {
+                    console.log(`Loading widget: ${widget}`);
+                    try {
+                        loadWidget(widget, companyId, lang, apiKey, "v2");
+                        checkWidgetLoaded(widget);
+                    } catch (error) {
+                        console.error(`Failed to load widget ${widget}:`, error);
+                    }
+                });
+            } else {
+                console.warn('loadWidget function is not properly defined or script failed to load. Widgets will not load.');
+                widgets.forEach(widget => {
+                    const widgetElement = document.getElementById(`${widget}-widget`);
+                    if (widgetElement) {
+                        widgetElement.innerHTML = `<p class="text-red-600">Critical Error: Widget loader script failed. Check if https://irp.atnmo.com/v2/widget/widget-loader.js is accessible.</p>`;
+                    }
+                });
+            }
+
+            const contentPanels = Array.from(document.querySelectorAll('.content-panel'));
+            const sidebarItems = document.querySelectorAll('.ground-handling-nav ul li a');
+            const docTabs = document.querySelectorAll('.doc-tab');
+            const factTabButtons = document.querySelectorAll('.fact-tab-button');
+
+            const showSectionCD = (sectionId, button) => {
+                const sections = document.querySelectorAll('.doc-content');
+                sections.forEach(section => {
+                    section.classList.toggle('active', section.id === sectionId);
+                });
+                docTabs.forEach(tab => {
+                    tab.classList.toggle('active', tab === button);
+                });
+            };
+
+            const initialActiveTabId = 'cd-s2';
+            const initialActiveButton = document.querySelector(`.doc-tab[data-tab-target="${initialActiveTabId}"]`);
+            if (initialActiveButton) {
+                showSectionCD(initialActiveTabId, initialActiveButton);
+            }
+
+            docTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    showSectionCD(tab.dataset.tabTarget, tab);
+                });
+            });
+            
+            const switchFactSheetTab = (targetId) => {
+                factTabButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.target === targetId);
+                });
+                
+                document.querySelectorAll('.fact-sheet-tab-content').forEach(content => {
+                    content.classList.toggle('active', content.id === 'fact-sheet-' + targetId + '-content');
+                });
+                
+                window.dispatchEvent(new Event('resize'));
+            };
+
+            factTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchFactSheetTab(button.dataset.target);
+                });
+            });
+
+            switchFactSheetTab('table');
+
+            const reinitializeWidget = (panelId) => {
+                const widgetMap = {
+                    'content-overview': 'company-snapshot',
+                    'content-announcement': 'corporate-news',
+                    'content-corporate-actions': 'corporate-actions',
+                    'content-financials': 'company-financials',
+                    'content-share-information': ['stock-activity-simple', 'stock-activity-advanced', 'performance', 'share-series'],
+                    'content-calculator': 'investment-calculator',
+                    'content-subscription': 'email-subscription'
+                };
+                const widgetsToLoad = widgetMap[panelId];
+                if (widgetsToLoad) {
+                    const widgetList = Array.isArray(widgetsToLoad) ? widgetsToLoad : [widgetsToLoad];
+                    widgetList.forEach(widgetId => {
+                        if (typeof window.loadWidget === 'function' && !window.loadWidget.toString().includes('native code')) {
+                            const targetId = `${widgetId}-widget`;
+                            const targetElement = document.getElementById(targetId);
+
+                            if (targetElement && !targetElement.hasChildNodes() && widgetId !== 'fact-sheet-charts') {
+                                console.log(`Reinitializing widget: ${widgetId}`);
+                                try {
+                                    loadWidget(widgetId, companyId, lang, apiKey, "v2");
+                                    checkWidgetLoaded(widgetId);
+                                } catch (error) {
+                                    console.error(`Failed to reinitialize widget ${widgetId}:`, error);
+                                }
+                            }
+                        }
+                    });
+                    window.dispatchEvent(new Event('resize'));
+                }
+
+                if (panelId === 'content-factsheet') {
+                    const activeFactTab = document.querySelector('.fact-tab-button.active');
+                    const activeTarget = activeFactTab ? activeFactTab.dataset.target : 'table';
+                    switchFactSheetTab(activeTarget); 
+                }
+            };
+
+            if (window.innerWidth >= 1024) {
+                let currentPanelIndex = 0;
+                let scrollAccumulator = 0;
+                const scrollThreshold = 80;
+                let isTransitioning = false;
+
+                const navigateTo = (panelId, index) => {
+                    if (isTransitioning) return;
+                    isTransitioning = true;
+
+                    setTimeout(() => {
+                        contentPanels.forEach(panel => {
+                            panel.classList.toggle('active', panel.id === panelId);
+                            if (panel.id === panelId) {
+                                reinitializeWidget(panelId);
+                            }
+                        });
+                        sidebarItems.forEach(item => {
+                            item.classList.toggle('active', item.href.split('#')[1] === panelId);
+                        });
+                        currentPanelIndex = index;
+                        scrollAccumulator = 0;
+                        isTransitioning = false;
+                        window.dispatchEvent(new Event('resize'));
+                    }, 100);
+                };
+
+                const contentMain = document.querySelector('.content-main');
+                if (contentMain) {
+                    contentMain.addEventListener('wheel', (event) => {
+                        event.preventDefault();
+                        if (isTransitioning) return;
+
+                        const factSheetPanel = document.getElementById('content-factsheet');
+                        const financialsPanel = document.getElementById('content-financials');
+                        
+                        const handleInternalScroll = (panel, contentAreaSelector, isFinancials = false) => {
+                            const targetElement = isFinancials ? panel : document.querySelector(contentAreaSelector);
+
+                            if (panel.classList.contains('active') && targetElement) {
+                                const isAtTop = targetElement.scrollTop === 0;
+                                const isScrollable = targetElement.scrollHeight > targetElement.clientHeight + 1;
+                                const isAtBottom = isScrollable && (targetElement.scrollHeight - targetElement.clientHeight <= targetElement.scrollTop + 1); 
+
+                                if (event.deltaY > 0 && (isAtBottom || !isScrollable)) {
+                                    if (currentPanelIndex < contentPanels.length - 1) {
+                                        const nextIndex = currentPanelIndex + 1;
+                                        const nextPanelId = contentPanels[nextIndex].id;
+                                        navigateTo(nextPanelId, nextIndex);
+                                    }
+                                    return true;
+                                } 
+                                
+                                else if (event.deltaY < 0 && isAtTop) {
+                                    if (currentPanelIndex > 0) {
+                                        const prevIndex = currentPanelIndex - 1;
+                                        const prevPanelId = contentPanels[prevIndex].id;
+                                        navigateTo(prevPanelId, prevIndex);
+                                    }
+                                    return true;
+                                }
+                                
+                                if (isScrollable) {
+                                    targetElement.scrollTop += event.deltaY;
+                                    scrollAccumulator = 0; 
+                                    return true;
+                                }
+                            }
+                            return false;
+                        };
+
+                        if (handleInternalScroll(factSheetPanel, '#content-factsheet .fact-sheet-content-area')) {
+                            return;
+                        }
+
+                        const delta = event.deltaY;
+                        scrollAccumulator += Math.abs(delta);
+
+                        if (scrollAccumulator >= scrollThreshold) {
+                            const isScrollingDown = delta > 0;
+
+                            if (isScrollingDown && currentPanelIndex < contentPanels.length - 1) {
+                                const nextIndex = currentPanelIndex + 1;
+                                const nextPanelId = contentPanels[nextIndex].id;
+                                navigateTo(nextPanelId, nextIndex);
+                            } else if (!isScrollingDown && currentPanelIndex > 0) {
+                                const prevIndex = currentPanelIndex - 1;
+                                const prevPanelId = contentPanels[prevIndex].id;
+                                navigateTo(prevPanelId, prevIndex);
+                            } else {
+                                scrollAccumulator = 0;
+                            }
+                        }
+                    }, { passive: false });
+                }
+
+                sidebarItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const panelId = item.href.split('#')[1];
+                        const newIndex = contentPanels.findIndex(panel => panel.id === panelId);
+                        navigateTo(panelId, newIndex);
+                    });
+                });
+
+                navigateTo('content-overview', 0);
+            } else {
+                const mobileObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const targetId = entry.target.id;
+                            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                                item.classList.toggle('active', item.dataset.target === targetId);
+                            });
+                            reinitializeWidget(targetId);
+                        }
+                    });
+                }, { rootMargin: "-20% 0px -80% 0px", threshold: 0.1 });
+
+                contentPanels.forEach(panel => mobileObserver.observe(panel));
+
+                const mobileNavContainer = document.querySelector('.mobile-nav-container');
+                if (mobileNavContainer) {
+                    contentPanels.forEach((panel, index) => {
+                        const navItem = document.createElement('a');
+                        navItem.href = `#${panel.id}`;
+                        navItem.dataset.target = panel.id;
+                        navItem.className = 'mobile-nav-item shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-normal bg-gray-200 text-gray-700';
+                        navItem.textContent = String(index + 1).padStart(2, '0');
+                        mobileNavContainer.appendChild(navItem);
+                    });
+
+                    document.querySelectorAll('.mobile-nav-item').forEach(item => {
                         item.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const targetElement = document.getElementById(item.dataset.target);
+                            if (targetElement) {
+                                const offset = document.getElementById('mobile-nav-bar').offsetHeight;
+                                window.scrollTo({ 
+                                    top: targetElement.offsetTop - offset, 
+                                    behavior: 'smooth' 
+                                });
+                                reinitializeWidget(item.dataset.target);
+                            }
+                        });
+                    });
+                }
+
+                const firstVisiblePanel = Array.from(contentPanels).find(panel => {
+                    const rect = panel.getBoundingClientRect();
+                    return rect.top >= 0 && rect.top < window.innerHeight;
+                });
+                if (firstVisiblePanel) {
+                    reinitializeWidget(firstVisiblePanel.id);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
                             e.preventDefault();
                             const targetElement = document.getElementById(item.dataset.target);
                             if (targetElement) {
