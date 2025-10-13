@@ -189,7 +189,7 @@
                 background-color: #ccc;
                 border-radius: 3px;
             }
-            /* Mobile-specific widget styles with fixed 1500px height */
+            /* Mobile-specific widget styles */
             .widget-wrapper {
                 width: 100%;
                 max-width: 100%;
@@ -197,29 +197,31 @@
                 overflow-y: visible; /* Ensure content is not clipped */
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: thin;
-                height: 1500px; /* Fixed height */
             }
             .widget-wrapper > div,
             .widget-wrapper iframe {
                 width: 100% !important;
                 min-width: 100%;
                 max-width: 100%;
-                height: 1500px !important; /* Fixed height */
+                height: auto !important;
+                min-height: 1800px; /* Default height as fallback */
                 box-sizing: border-box;
                 overflow: visible; /* Prevent content clipping */
             }
             #fact-sheet-table-widget {
-                height: 1500px !important; /* Fixed height */
+                height: auto !important;
                 width: 100%;
                 display: block;
                 background-color: white;
+                min-height: 1800px; /* Default height as fallback */
             }
             #fact-sheet-charts-widget,
             #fact-sheet-charts-widget iframe {
-                height: 1500px !important; /* Fixed height */
+                height: auto !important;
                 width: 100%;
                 display: block;
                 background-color: white;
+                min-height: 1800px; /* Default height as fallback */
             }
         }
 
@@ -467,12 +469,14 @@
             display: block;
         }
         #fact-sheet-table-widget {
+             height: auto !important;
              width: 100%;
              display: block;
              background-color: white;
         }
         #fact-sheet-charts-widget,
         #fact-sheet-charts-widget iframe {
+             height: auto !important;
              width: 100%;
              display: block;
              background-color: white;
@@ -985,7 +989,63 @@
             }
         };
 
-        // Function to check if a widget loaded correctly with retries
+        // Function to adjust widget height dynamically for mobile and tablet
+        function adjustWidgetHeight(widgetElement) {
+            if (!widgetElement || window.innerWidth >= 1024) return; // Skip for desktop
+
+            // For iframes
+            if (widgetElement.tagName === 'IFRAME') {
+                try {
+                    const iframeDoc = widgetElement.contentDocument || widgetElement.contentWindow.document;
+                    if (iframeDoc && iframeDoc.body) {
+                        const contentHeight = iframeDoc.body.scrollHeight + 20; // Add padding
+                        widgetElement.style.height = `${contentHeight}px`;
+                    } else {
+                        widgetElement.style.height = '1800px'; // Fallback height
+                    }
+                } catch (e) {
+                    console.warn(`Cannot access iframe content for ${widgetElement.id} due to CORS:`, e);
+                    widgetElement.style.height = '1800px'; // Fallback height
+                }
+            } 
+            // For div-based widgets
+            else {
+                const contentHeight = widgetElement.scrollHeight + 20; // Add padding
+                widgetElement.style.height = `${contentHeight}px`;
+            }
+        }
+
+        // Function to observe widget size changes and adjust height
+        function observeWidget(widgetId) {
+            if (window.innerWidth >= 1024) return; // Skip for desktop
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+            if (!widgetElement) return;
+
+            // Initial height adjustment with delay
+            setTimeout(() => adjustWidgetHeight(widgetElement), 2000);
+
+            // Periodic height adjustment for 5 seconds
+            let attempts = 0;
+            const maxAttempts = 5;
+            const adjustInterval = setInterval(() => {
+                if (attempts >= maxAttempts) {
+                    clearInterval(adjustInterval);
+                    return;
+                }
+                adjustWidgetHeight(widgetElement);
+                attempts++;
+            }, 1000);
+
+            // Add load event listener for iframes
+            if (widgetElement.tagName === 'IFRAME') {
+                widgetElement.addEventListener('load', () => {
+                    adjustWidgetHeight(widgetElement);
+                    clearInterval(adjustInterval); // Stop periodic attempts after load
+                });
+            }
+        }
+
+        // Enhanced function to check if a widget loaded correctly with retries
         function checkWidgetLoaded(widgetId, timeout = 8000, retries = 3) {
             const widgetElement = document.getElementById(`${widgetId}-widget`);
             if (!widgetElement) {
@@ -1002,6 +1062,10 @@
                                    widgetElement.offsetHeight > 50;
                 if (hasContent) {
                     console.log(`Widget loaded successfully: ${widgetId}`);
+                    if (window.innerWidth < 1024) {
+                        setTimeout(() => adjustWidgetHeight(widgetElement), 2000);
+                        observeWidget(widgetId);
+                    }
                     return true;
                 }
                 return false;
@@ -1052,6 +1116,13 @@
             const buttons = document.querySelectorAll('.nav_sa button');
             buttons.forEach(btn => btn.classList.remove('active-btn'));
             button.classList.add('active-btn');
+
+            // Adjust height for active stock activity widget
+            const widgetId = sectionId === 'SAsection1' ? 'stock-activity-simple' : 'stock-activity-advanced';
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+            if (widgetElement) {
+                setTimeout(() => adjustWidgetHeight(widgetElement), 1000);
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1082,7 +1153,10 @@
                     console.log(`Loading widget: ${widget}`);
                     try {
                         loadWidget(widget, companyId, lang, apiKey, "v2");
-                        setTimeout(() => checkWidgetLoaded(widget, 10000, 3), 1000);
+                        setTimeout(() => {
+                            checkWidgetLoaded(widget, 10000, 3);
+                            observeWidget(widget);
+                        }, 1000);
                     } catch (error) {
                         console.error(`Failed to load widget ${widget}:`, error);
                     }
@@ -1125,6 +1199,13 @@
                     content.classList.toggle('active', content.id === 'fact-sheet-' + targetId + '-content');
                 });
 
+                // Adjust height for active fact sheet widget
+                const widgetId = targetId === 'table' ? 'fact-sheet-table' : 'fact-sheet-charts';
+                const widgetElement = document.getElementById(`${widgetId}-widget`);
+                if (widgetElement) {
+                    setTimeout(() => adjustWidgetHeight(widgetElement), 1000);
+                }
+
                 window.dispatchEvent(new Event('resize'));
             };
 
@@ -1159,7 +1240,10 @@
                                 console.log(`Reinitializing widget: ${widgetId}`);
                                 try {
                                     loadWidget(widgetId, companyId, lang, apiKey, "v2");
-                                    setTimeout(() => checkWidgetLoaded(widgetId, 10000, 3), 1000);
+                                    setTimeout(() => {
+                                        checkWidgetLoaded(widgetId, 10000, 3);
+                                        observeWidget(widgetId);
+                                    }, 1000);
                                 } catch (error) {
                                     console.error(`Failed to reinitialize widget ${widgetId}:`, error);
                                 }
@@ -1315,6 +1399,14 @@
                         });
                     });
                 }
+
+                // Ensure all widgets are checked and heights adjusted on mobile
+                widgets.forEach(widget => {
+                    setTimeout(() => {
+                        checkWidgetLoaded(widget, 10000, 3);
+                        observeWidget(widget);
+                    }, 1000);
+                });
             }
         });
     </script>
