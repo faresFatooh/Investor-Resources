@@ -281,8 +281,6 @@
             flex-grow: 1; 
             width: 100%; 
             background-color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
-            border-radius: 0.375rem; 
         }
         
         .tab-bar {
@@ -290,13 +288,13 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
-            background-color: var(--dark-blue);
+            background-color: white;
             border-bottom: none; 
         }
         
         .fact-tab-button {
-            background-color: var(--dark-blue); 
-            color: white; 
+            background-color: white; 
+            color: var(--light-blue-doc); 
             font-weight: 500;
             cursor: pointer;
             padding: 10px 20px; 
@@ -308,12 +306,13 @@
             margin-right: 0; 
             position: relative;
             z-index: 1; 
+            border-bottom: 2px solid transparent;
         }
         .fact-tab-button.active {
-            background-color: var(--header-blue);
-            color: white;
+            background-color: white;
+            color: var(--header-blue);
             box-shadow: none; 
-            border-bottom: none;
+            border-bottom: 2px solid var(--header-blue);
         }
         
         .fact-sheet-tab-content {
@@ -327,18 +326,20 @@
              min-height: 1500px;
              width: 100%;
              display: block;
+             background-color: white;
         }
         #fact-sheet-charts-widget,
         #fact-sheet-charts-widget iframe {
              height: 8000px !important;
              width: 100%;
              display: block;
+             background-color: white;
         }
         
         .irSEC {
             background-color: white;
-            border-radius: 0.375rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 0;
+            box-shadow: none;
             margin-top: 2rem;
             padding: 1.5rem;
         }
@@ -402,6 +403,26 @@
                 gap: 0.5rem;
             }
         }
+
+        /* Mobile horizontal scroll for widgets */
+        @media (max-width: 1023px) {
+            .widget-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: #ccc transparent;
+            }
+            .widget-wrapper::-webkit-scrollbar {
+                height: 6px;
+            }
+            .widget-wrapper::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .widget-wrapper::-webkit-scrollbar-thumb {
+                background-color: #ccc;
+                border-radius: 3px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -436,12 +457,16 @@
             <section class="content-main w-full bg-white flex-grow">
                 <div id="content-overview" class="content-panel active bg-[#ffffff]">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Company Overview</h2>
-                    <div id="company-snapshot-widget"></div>
+                    <div class="widget-wrapper">
+                        <div id="company-snapshot-widget" style="background-color: white;"></div>
+                    </div>
                 </div>
                 
                 <div id="content-announcement" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Announcement</h2>
-                    <div id="corporate-news-widget"></div>
+                    <div class="widget-wrapper">
+                        <div id="corporate-news-widget" style="background-color: white;"></div>
+                    </div>
                 </div>
                 
                 <div id="content-factsheet" class="content-panel">
@@ -455,11 +480,15 @@
 
                         <div class="fact-sheet-content-area">
                             <div id="fact-sheet-table-content" class="fact-sheet-tab-content active">
-                                <div id="fact-sheet-table-widget"></div> 
+                                <div class="widget-wrapper">
+                                    <div id="fact-sheet-table-widget" style="background-color: white;"></div> 
+                                </div>
                             </div>
 
                             <div id="fact-sheet-chart-content" class="fact-sheet-tab-content">
-                                <div id="fact-sheet-charts-widget"><iframe loading="lazy" id="fact-sheet-charts-frame" src="https://irp.atnmo.com/v2/widget/fact-sheet-charts?UUID=0bee5720-84b6-497f-8ac9-e1f3a759924e&amp;lang=en&amp;listingId=574a24a5-496e-4c9f-87c4-e11540313853" width="100%" scrolling="no" frameborder="0"></iframe></div>
+                                <div class="widget-wrapper">
+                                    <div id="fact-sheet-charts-widget" style="background-color: white;"><iframe loading="lazy" id="fact-sheet-charts-frame" src="https://irp.atnmo.com/v2/widget/fact-sheet-charts?UUID=0bee5720-84b6-497f-8ac9-e1f3a759924e&amp;lang=en&amp;listingId=574a24a5-496e-4c9f-87c4-e11540313853" width="100%" scrolling="no" frameborder="0"></iframe></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -698,12 +727,16 @@
 
                 <div id="content-corporate-actions" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Corporate Actions</h2>
-                    <div id="corporate-actions-widget" class="w-full"></div>
+                    <div class="widget-wrapper">
+                        <div id="corporate-actions-widget" class="w-full" style="background-color: white;"></div>
+                    </div>
                 </div>
                 
                 <div id="content-financials" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Company Financials</h2>
-                    <div id="company-financials-widget" class="w-full"></div>
+                    <div class="widget-wrapper">
+                        <div id="company-financials-widget" class="w-full" style="background-color: white;"></div>
+                    </div>
                 </div>
                 
                 <div id="content-share-information" class="content-panel">
@@ -722,12 +755,12 @@
                         </div>
                         <div class="cont2">
                             <section id="SAsection1" class="stockact active">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                <div class="widget-wrapper" style="width:100%; min-height:250px; background-color:#fff;">
                                     <div id="stock-activity-simple-widget"><script>loadWidget('stock-activity-simple', "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853","v2");</script></div>
                                 </div>    
                             </section>
                             <section id="SAsection2" class="stockact">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                <div class="widget-wrapper" style="width:100%; min-height:250px; background-color:#fff;">
                                     <div id="stock-activity-advanced-widget"><script>loadWidget('stock-activity-advanced', "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853","v2");</script></div>
                                 </div>    
                             </section>
@@ -737,21 +770,29 @@
                         <h3 class="irH3" style="font-weight: normal; color: #1ABCFF;">Stock Performance</h3>
                         <div class="cont2">
                             <div class="outerdiv">
-                                <div id="performance-widget"></div>
+                                <div class="widget-wrapper">
+                                    <div id="performance-widget" style="background-color: white;"></div>
+                                </div>
                             </div>
                         </div>
                     </section>
-                    <div id="share-series-widget" class="irSEC"></div>
+                    <div class="widget-wrapper irSEC">
+                        <div id="share-series-widget" style="background-color: white;"></div>
+                    </div>
                 </div>
                 
                 <div id="content-calculator" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Investment Calculator</h2>
-                    <div id="investment-calculator-widget" class="w-full"></div>
+                    <div class="widget-wrapper">
+                        <div id="investment-calculator-widget" class="w-full" style="background-color: white;"></div>
+                    </div>
                 </div>
                 
                 <div id="content-subscription" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Email Subscription</h2>
-                    <div id="email-subscription-widget" class="w-full"></div>
+                    <div class="widget-wrapper">
+                        <div id="email-subscription-widget" class="w-full" style="background-color: white;"></div>
+                    </div>
                 </div>
                 <div id="content-contact" class="content-panel bg-white">
                     <div class="outerdiv p-0 md:p-8">
@@ -831,6 +872,32 @@
             button.classList.add('active-btn');
         }
 
+        // Function to check if a widget loaded correctly
+        function checkWidgetLoaded(widgetId, timeout = 5000) {
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+            if (!widgetElement) {
+                console.error(`Widget element not found: ${widgetId}`);
+                return;
+            }
+
+            const checkInterval = setInterval(() => {
+                const hasContent = widgetElement.children.length > 0 || widgetElement.innerHTML.trim() !== '';
+                if (hasContent) {
+                    console.log(`Widget loaded successfully: ${widgetId}`);
+                    clearInterval(checkInterval);
+                }
+            }, 500);
+
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                const hasContent = widgetElement.children.length > 0 || widgetElement.innerHTML.trim() !== '';
+                if (!hasContent) {
+                    console.error(`Widget failed to load after ${timeout}ms: ${widgetId}`);
+                    widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget. Please refresh the page.</p>`;
+                }
+            }, timeout);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({ duration: 800, once: true });
 
@@ -857,6 +924,8 @@
                     console.log(`Loading widget: ${widget}`);
                     try {
                         loadWidget(widget, companyId, lang, apiKey, "v2");
+                        // Check loading after a short delay
+                        setTimeout(() => checkWidgetLoaded(widget), 1000);
                     } catch (error) {
                         console.error(`Failed to load widget ${widget}:`, error);
                     }
@@ -934,6 +1003,7 @@
                                 console.log(`Reinitializing widget: ${widgetId}`);
                                 try {
                                     loadWidget(widgetId, companyId, lang, apiKey, "v2");
+                                    setTimeout(() => checkWidgetLoaded(widgetId), 1000);
                                 } catch (error) {
                                     console.error(`Failed to reinitialize widget ${widgetId}:`, error);
                                 }
