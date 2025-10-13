@@ -296,15 +296,15 @@
         }
 
         /* Inside <style> section */
-        @media (min-width: 1024px) {
-            .scroll-area {
-                padding: 1rem 0; /* Adds space above and below the title */
-                height: 150px; /* Fixed height to include title and area below */
-                width: 100%;
-                position: relative;
-                z-index: 10; /* Ensure it’s above other content */
-            }
-        }
+     @media (min-width: 1024px) {
+    .scroll-area {
+        padding: 1rem 0;
+        height: 150px; /* منطقة العنوان + مساحة تحتها */
+        width: 100%;
+        position: relative;
+        z-index: 10;
+    }
+}
         /* Styles for Stock Activity Tabs */
         .irH3 {
             font-size: 1.875rem;
@@ -795,18 +795,26 @@
                 const activePanel = Array.from(contentPanels).find(panel => panel.classList.contains('active'));
                 if (activePanel) {
                     const scrollArea = activePanel.querySelector('.scroll-area');
-                    if (scrollArea && window.parent.document.querySelector('.desktop-iframe.active-iframe')) {
+                    if (scrollArea) {
                         scrollArea.addEventListener('wheel', (e) => {
-                            e.preventDefault(); // Prevent default scroll to control panel switching
-                            handleScroll(e);
+                            // Only handle scroll if iframe is active
+                            if (window.parent.document.querySelector('.desktop-iframe.active-iframe')) {
+                                e.preventDefault(); // Prevent default scroll
+                                handleScroll(e);
+                            }
                         }, { passive: false });
                     }
                 }
             };
 
-            // Update scroll listener when panel changes
+            // Update scroll listener when panel changes or on mouse enter
             contentPanels.forEach(panel => {
                 panel.addEventListener('transitionend', updateScrollListener);
+            });
+
+            // Re-attach listener on mouse enter to ensure it’s active
+            document.querySelectorAll('.scroll-area').forEach(area => {
+                area.addEventListener('mouseenter', updateScrollListener);
             });
 
             // Initial setup
