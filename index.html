@@ -979,30 +979,64 @@
             button.classList.add('active-btn');
         }
 
-        // Function to check if a widget loaded correctly, enhanced for mobile
-        function checkWidgetLoaded(widgetId, timeout = 5000) {
+        // Enhanced function to check if a widget loaded correctly with retries
+        function checkWidgetLoaded(widgetId, timeout = 5000, retries = 2) {
             const widgetElement = document.getElementById(`${widgetId}-widget`);
             if (!widgetElement) {
                 console.error(`Widget element not found: ${widgetId}`);
                 return;
             }
 
-            const checkInterval = setInterval(() => {
-                const hasContent = widgetElement.children.length > 0 || widgetElement.innerHTML.trim() !== '';
+            let retryCount = 0;
+            const maxRetries = retries;
+
+            const performCheck = () => {
+                const hasContent = widgetElement.children.length > 0 || 
+                                   widgetElement.innerHTML.trim() !== '' || 
+                                   widgetElement.offsetHeight > 50; // Additional check for height
                 if (hasContent) {
                     console.log(`Widget loaded successfully: ${widgetId}`);
+                    return true;
+                }
+                return false;
+            };
+
+            const checkInterval = setInterval(() => {
+                if (performCheck()) {
                     clearInterval(checkInterval);
+                    return;
                 }
             }, 500);
 
-            setTimeout(() => {
+            const timeoutHandler = () => {
                 clearInterval(checkInterval);
-                const hasContent = widgetElement.children.length > 0 || widgetElement.innerHTML.trim() !== '';
-                if (!hasContent) {
-                    console.error(`Widget failed to load after ${timeout}ms: ${widgetId}`);
-                    widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget. Please refresh the page.</p>`;
+                if (performCheck()) {
+                    return;
                 }
-            }, timeout);
+
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    console.log(`Retrying load for ${widgetId} (attempt ${retryCount}/${maxRetries})`);
+                    const companyId = "0bee5720-84b6-497f-8ac9-e1f3a759924e";
+                    const apiKey = "574a24a5-496e-4c9f-87c4-e11540313853";
+                    const lang = "en";
+                    try {
+                        loadWidget(widgetId, companyId, lang, apiKey, "v2");
+                        // Schedule next check with increased timeout
+                        setTimeout(() => checkWidgetLoaded(widgetId, timeout * 1.5, maxRetries - retryCount), 1000);
+                    } catch (error) {
+                        console.error(`Retry failed for widget ${widgetId}:`, error);
+                        if (retryCount === maxRetries) {
+                            widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget after ${maxRetries + 1} attempts. Please refresh the page.</p>`;
+                        }
+                    }
+                } else {
+                    console.error(`Widget failed to load after ${maxRetries + 1} attempts: ${widgetId}`);
+                    widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget after ${maxRetries + 1} attempts. Please refresh the page.</p>`;
+                }
+            };
+
+            setTimeout(timeoutHandler, timeout);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1031,8 +1065,9 @@
                     console.log(`Loading widget: ${widget}`);
                     try {
                         loadWidget(widget, companyId, lang, apiKey, "v2");
-                        // Check loading after a short delay
-                        setTimeout(() => checkWidgetLoaded(widget), 1000);
+                        // Enhanced check with retries, longer timeout for mobile
+                        const timeout = window.innerWidth < 1024 ? 8000 : 5000;
+                        setTimeout(() => checkWidgetLoaded(widget, timeout, 3), 1000);
                     } catch (error) {
                         console.error(`Failed to load widget ${widget}:`, error);
                     }
@@ -1110,12 +1145,9 @@
                                 console.log(`Reinitializing widget: ${widgetId}`);
                                 try {
                                     loadWidget(widgetId, companyId, lang, apiKey, "v2");
-                                    // Enhanced check for mobile
-                                    if (window.innerWidth < 1024) {
-                                        setTimeout(() => checkWidgetLoaded(widgetId), 1500); // Slightly longer timeout for mobile
-                                    } else {
-                                        setTimeout(() => checkWidgetLoaded(widgetId), 1000);
-                                    }
+                                    // Enhanced check with retries
+                                    const timeout = window.innerWidth < 1024 ? 8000 : 5000;
+                                    setTimeout(() => checkWidgetLoaded(widgetId, timeout, 3), 1000);
                                 } catch (error) {
                                     console.error(`Failed to reinitialize widget ${widgetId}:`, error);
                                 }
@@ -1292,7 +1324,7 @@
                 window.addEventListener('resize', () => {
                     if (window.innerWidth < 1024) {
                         widgets.forEach(widget => {
-                            setTimeout(() => checkWidgetLoaded(widget), 1000);
+                            setTimeout(() => checkWidgetLoaded(widget, 8000, 3), 1000);
                         });
                     }
                 });
