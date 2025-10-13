@@ -46,8 +46,8 @@
                 justify-content: flex-start; 
                 padding: 2rem;
                 overflow-y: auto;
-                scrollbar-width: auto; /* Ensure scrollbar visibility for Firefox */
-                scrollbar-color: #888 #f1f1f1; /* Scrollbar color for Firefox */
+                scrollbar-width: auto;
+                scrollbar-color: #888 #f1f1f1;
             }
             .content-panel.active { 
                 opacity: 1; 
@@ -114,8 +114,8 @@
                 flex-grow: 1;
                 overflow-y: auto;
                 position: relative;
-                scrollbar-width: auto; /* Ensure scrollbar visibility for Firefox */
-                scrollbar-color: #888 #f1f1f1; /* Scrollbar color for Firefox */
+                scrollbar-width: auto;
+                scrollbar-color: #888 #f1f1f1;
             }
             
             .fact-sheet-tab-content {
@@ -131,68 +131,68 @@
             .content-panel {
                 padding: 1rem;
                 min-height: 90vh;
-                overflow-y: auto; /* Ensure scrolling on mobile */
-                scrollbar-width: auto; /* Ensure scrollbar visibility for Firefox */
-                scrollbar-color: #888 #f1f1f1; /* Scrollbar color for Firefox */
-            }
-
-            /* Horizontal scroll for widgets on mobile */
-            .mobile-horizontal-scroll {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+                overflow-y: auto;
                 scrollbar-width: auto;
                 scrollbar-color: #888 #f1f1f1;
             }
-
-            .mobile-horizontal-scroll::-webkit-scrollbar {
-                height: 8px;
-            }
-            .mobile-horizontal-scroll::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-            .mobile-horizontal-scroll::-webkit-scrollbar-thumb {
-                background: #888;
-                border-radius: 4px;
-            }
-            .mobile-horizontal-scroll::-webkit-scrollbar-thumb:hover {
-                background: #555;
-            }
-
-            /* Ensure widgets don't overflow and allow horizontal scroll */
-            #corporate-news-widget,
-            #corporate-actions-widget,
-            #company-financials-widget {
-                min-width: 800px; /* Assume widgets are wide; adjust based on actual content */
-                width: auto;
-            }
         }
 
-        /* Ensure scrollbar is visible on WebKit browsers (Chrome, Safari) */
+        /* Scrollbar styles for WebKit browsers (Chrome, Safari) */
         .content-panel::-webkit-scrollbar,
         .doc-content::-webkit-scrollbar,
         .fact-sheet-content-area::-webkit-scrollbar,
-        .doc-tabs-container::-webkit-scrollbar {
+        .doc-tabs-container::-webkit-scrollbar,
+        #content-announcement .content-panel::-webkit-scrollbar,
+        #content-corporate-actions .content-panel::-webkit-scrollbar,
+        #content-financials .content-panel::-webkit-scrollbar,
+        #company-financials-widget::-webkit-scrollbar {
             width: 10px;
             height: 10px;
         }
         .content-panel::-webkit-scrollbar-track,
         .doc-content::-webkit-scrollbar-track,
         .fact-sheet-content-area::-webkit-scrollbar-track,
-        .doc-tabs-container::-webkit-scrollbar-track {
+        .doc-tabs-container::-webkit-scrollbar-track,
+        #content-announcement .content-panel::-webkit-scrollbar-track,
+        #content-corporate-actions .content-panel::-webkit-scrollbar-track,
+        #content-financials .content-panel::-webkit-scrollbar-track,
+        #company-financials-widget::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
         .content-panel::-webkit-scrollbar-thumb,
         .doc-content::-webkit-scrollbar-thumb,
         .fact-sheet-content-area::-webkit-scrollbar-thumb,
-        .doc-tabs-container::-webkit-scrollbar-thumb {
+        .doc-tabs-container::-webkit-scrollbar-thumb,
+        #content-announcement .content-panel::-webkit-scrollbar-thumb,
+        #content-corporate-actions .content-panel::-webkit-scrollbar-thumb,
+        #content-financials .content-panel::-webkit-scrollbar-thumb,
+        #company-financials-widget::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 5px;
         }
         .content-panel::-webkit-scrollbar-thumb:hover,
         .doc-content::-webkit-scrollbar-thumb:hover,
         .fact-sheet-content-area::-webkit-scrollbar-thumb:hover,
-        .doc-tabs-container::-webkit-scrollbar-thumb:hover {
+        .doc-tabs-container::-webkit-scrollbar-thumb:hover,
+        #content-announcement .content-panel::-webkit-scrollbar-thumb:hover,
+        #content-corporate-actions .content-panel::-webkit-scrollbar-thumb:hover,
+        #content-financials .content-panel::-webkit-scrollbar-thumb:hover,
+        #company-financials-widget::-webkit-scrollbar-thumb:hover {
             background: #555;
+        }
+
+        /* Horizontal scroll for Announcement, Corporate Actions, and Company Financials widget on mobile */
+        @media (max-width: 640px) {
+            #content-announcement .content-panel,
+            #content-corporate-actions .content-panel,
+            #company-financials-widget {
+                overflow-x: auto;
+                scrollbar-width: auto;
+                scrollbar-color: #888 #f1f1f1;
+            }
+            #company-financials-widget {
+                min-width: 800px; /* Ensure content is wider to trigger horizontal scroll */
+            }
         }
 
         .doc-tab.active { 
@@ -212,9 +212,9 @@
         
         .doc-content { 
             display: none; 
-            overflow-y: auto; /* Enable vertical scrolling */
-            scrollbar-width: auto; /* Ensure scrollbar visibility for Firefox */
-            scrollbar-color: #888 #f1f1f1; /* Scrollbar color for Firefox */
+            overflow-y: auto;
+            scrollbar-width: auto;
+            scrollbar-color: #888 #f1f1f1;
         }
         .doc-content.active { 
             display: block; 
@@ -251,9 +251,9 @@
             padding: 0 1rem; 
             display: flex; 
             flex-wrap: nowrap; 
-            overflow-x: auto; /* Allow horizontal scrolling for tabs */
-            scrollbar-width: auto; /* Ensure scrollbar visibility for Firefox */
-            scrollbar-color: #888 #f1f1f1; /* Scrollbar color for Firefox */
+            overflow-x: auto;
+            scrollbar-width: auto;
+            scrollbar-color: #888 #f1f1f1;
         }
         
         .doc-content .doc-row p {
@@ -355,7 +355,7 @@
                 margin-bottom: 0.25rem;
             }
             .doc-content {
-                max-height: none; /* Remove height restriction on mobile */
+                max-height: none;
             }
         }
         
@@ -525,9 +525,7 @@
                 
                 <div id="content-announcement" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Announcement</h2>
-                    <div class="mobile-horizontal-scroll">
-                        <div id="corporate-news-widget"></div>
-                    </div>
+                    <div id="corporate-news-widget"></div>
                 </div>
                 
                 <div id="content-factsheet" class="content-panel">
@@ -552,7 +550,7 @@
                 </div>
                 
                 <div id="content-documents" class="content-panel"> 
-                    <div class="bg-white h-full flex flex-col"> <!-- Removed shadow-lg and rounded-lg -->
+                    <div class="bg-white h-full flex flex-col">
                         <div class="p-8 pb-0">
                             <h2 class="text-4xl font-normal" style="color: #1ABCFF;">Corporate Documents</h2>
                         </div>
@@ -567,7 +565,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-4 flex-grow overflow-y-auto"> <!-- Ensure scrolling for doc-content -->
+                        <div class="p-4 flex-grow overflow-y-auto">
                             <div id="cd-s1" class="doc-content space-y-3" data-tab-group="corp_docs">
                                 <div class="doc-row">
                                     <p>Prospectus</p>
@@ -784,16 +782,12 @@
 
                 <div id="content-corporate-actions" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Corporate Actions</h2>
-                    <div class="mobile-horizontal-scroll">
-                        <div id="corporate-actions-widget" class="w-full"></div>
-                    </div>
+                    <div id="corporate-actions-widget" class="w-full"></div>
                 </div>
                 
                 <div id="content-financials" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Company Financials</h2>
-                    <div class="mobile-horizontal-scroll">
-                        <div id="company-financials-widget" class="w-full"></div>
-                    </div>
+                    <div id="company-financials-widget" class="w-full"></div>
                 </div>
                 
                 <div id="content-share-information" class="content-panel">
