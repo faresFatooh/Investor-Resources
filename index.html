@@ -128,6 +128,22 @@
                 padding: 1rem;
                 min-height: 90vh;
             }
+            /* Enable horizontal scrolling for specific widgets on mobile */
+            #content-announcement .content-panel,
+            #content-corporate-actions .content-panel,
+            #content-financials .content-panel {
+                overflow-x: auto;
+                white-space: nowrap;
+                max-width: none; /* Prevent width constraint */
+            }
+            #corporate-news-widget,
+            #corporate-actions-widget,
+            #company-financials-widget {
+                min-width: 800px; /* Ensure widgets have enough width to display fully */
+                width: 100%;
+                display: inline-block;
+                max-width: none; /* Allow full expansion */
+            }
         }
 
         .doc-tab.active { 
@@ -290,30 +306,41 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
-            background-color: var(--dark-blue);
+            background-color: white;
             border-bottom: none; 
         }
         
         .fact-tab-button {
-            background-color: var(--dark-blue); 
-            color: white; 
+            background-color: transparent; 
+            color: var(--light-blue-doc); 
             font-weight: 500;
             cursor: pointer;
             padding: 10px 20px; 
-            transition: all 0.3s;
+            transition: color 0.3s;
             border: none;
             outline: none;
             text-align: center;
             font-size: 1rem;
             margin-right: 0; 
             position: relative;
-            z-index: 1; 
         }
         .fact-tab-button.active {
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+        
+        .fact-tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; 
+            left: 0;
+            width: 100%;
+            height: 2px;
             background-color: var(--header-blue);
-            color: white;
-            box-shadow: none; 
-            border-bottom: none;
+        }
+        
+        .fact-tab-button:hover {
+            color: var(--dark-blue);
         }
         
         .fact-sheet-tab-content {
@@ -934,6 +961,18 @@
                                 console.log(`Reinitializing widget: ${widgetId}`);
                                 try {
                                     loadWidget(widgetId, companyId, lang, apiKey, "v2");
+                                    // Trigger resize event for mobile widgets with longer delay to ensure full loading
+                                    if (window.innerWidth < 1024 && ['corporate-news', 'corporate-actions', 'company-financials'].includes(widgetId)) {
+                                        setTimeout(() => {
+                                            const widgetElement = document.getElementById(targetId);
+                                            if (widgetElement && widgetElement.offsetWidth > 0) {
+                                                window.dispatchEvent(new Event('resize'));
+                                            } else {
+                                                console.warn(`Widget ${widgetId} not fully loaded, retrying...`);
+                                                setTimeout(() => loadWidget(widgetId, companyId, lang, apiKey, "v2"), 500);
+                                            }
+                                        }, 500);
+                                    }
                                 } catch (error) {
                                     console.error(`Failed to reinitialize widget ${widgetId}:`, error);
                                 }
