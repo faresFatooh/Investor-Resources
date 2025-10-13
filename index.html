@@ -126,7 +126,105 @@
         @media (max-width: 1023px) {
             .content-panel {
                 padding: 1rem;
-                min-height: 90vh;
+                min-height: calc(100vh - 4rem);
+            }
+            .doc-tabs-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: #ccc transparent;
+            }
+            .doc-tabs-container::-webkit-scrollbar {
+                height: 6px;
+            }
+            .doc-tabs-container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .doc-tabs-container::-webkit-scrollbar-thumb {
+                background-color: #ccc;
+                border-radius: 3px;
+            }
+            .tab-bar {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: #ccc transparent;
+            }
+            .tab-bar::-webkit-scrollbar {
+                height: 6px;
+            }
+            .tab-bar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .tab-bar::-webkit-scrollbar-thumb {
+                background-color: #ccc;
+                border-radius: 3px;
+            }
+            .mobile-nav-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: #ccc transparent;
+            }
+            .mobile-nav-container::-webkit-scrollbar {
+                height: 6px;
+            }
+            .mobile-nav-container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .mobile-nav-container::-webkit-scrollbar-thumb {
+                background-color: #ccc;
+                border-radius: 3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-panel {
+                padding: 0.5rem;
+            }
+            h1 {
+                font-size: 2rem !important;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            .doc-tab {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+                white-space: nowrap;
+            }
+            .fact-tab-button {
+                padding: 8px 12px;
+                font-size: 0.875rem;
+            }
+            .nav_sa {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            .nav_sa button {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+            }
+            .irH3 {
+                font-size: 1.25rem;
+            }
+            .irSEC {
+                padding: 0.75rem;
+            }
+            .analyst-recommendation-row span {
+                font-size: 0.8rem;
+            }
+            .analyst-recommendation-row a {
+                font-size: 0.8rem;
+            }
+            .doc-row {
+                padding: 0.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .doc-row a {
+                justify-content: flex-end;
             }
         }
 
@@ -172,7 +270,7 @@
             padding: 0 1rem; 
             display: flex; 
             flex-wrap: nowrap; 
-            overflow-x: hidden; 
+            overflow-x: auto; 
         }
         
         .doc-content .doc-row p {
@@ -307,6 +405,7 @@
             position: relative;
             z-index: 1; 
             border-bottom: 2px solid transparent;
+            white-space: nowrap;
         }
         .fact-tab-button.active {
             background-color: white;
@@ -511,7 +610,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-4 overflow-y-auto">
+                        <div class="p-4 overflow-y-auto flex-grow">
                             <div id="cd-s1" class="doc-content space-y-3" data-tab-group="corp_docs">
                                 <div class="doc-row">
                                     <p>Prospectus</p>
