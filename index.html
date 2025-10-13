@@ -11,9 +11,7 @@
     <style>
         :root {
             --dark-blue: #142C3C;
-            --header-blue: #008cdd;
             --light-blue-doc: #1ABCFF;
-            --light-grey-bg: #ffffff;
         }
         html, body {
             scroll-behavior: smooth;
@@ -78,11 +76,11 @@
                 align-items: center;
                 font-weight: 500;
                 color: #374151;
-                transition: background 0.3s ease, color 0.3s ease;
+                transition: color 0.3s ease;
             }
             .sidebar-item:hover .sidebar-item-num, .sidebar-item.active .sidebar-item-num {
-                background: var(--header-blue);
-                background-image: none;
+                background: none;
+                background-color: var(--dark-blue);
                 color: white;
             }
             .sidebar-item-text {
@@ -112,17 +110,21 @@
             .mobile-nav-container::-webkit-scrollbar {
                 display: none;
             }
+            .mobile-nav-bar {
+                width: 100%;
+                z-index: 40;
+                padding: 1rem;
+            }
         }
 
         /* Shared Styles */
         .doc-tab {
             padding: 0.5rem 1rem;
-            border-radius: 0;
             color: var(--light-blue-doc);
             font-weight: 500;
             margin-right: 0.5rem;
             cursor: pointer;
-            background-color: transparent;
+            background-color: white;
             border-bottom: 2px solid transparent;
             white-space: nowrap;
             transition: color 0.3s, border-bottom 0.3s;
@@ -131,7 +133,7 @@
             color: var(--dark-blue);
         }
         .doc-tab.active {
-            color: var(--dark-blue) !important;
+            color: var(--dark-blue);
             border-bottom: 2px solid var(--dark-blue);
         }
         .doc-tabs-container {
@@ -139,6 +141,7 @@
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
+            background-color: white;
         }
         .doc-content {
             display: none;
@@ -151,9 +154,6 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.75rem;
-            background-color: white;
-            border-radius: 0.375rem;
-            margin-bottom: 0.5rem;
             border-bottom: 1px solid rgba(26, 188, 255, 0.3);
         }
         .doc-content .doc-row p {
@@ -172,7 +172,6 @@
             height: 1.5rem;
         }
         .doc-content .doc-row.header {
-            background-color: var(--light-grey-bg);
             color: var(--dark-blue);
             font-weight: 400;
             padding: 0.5rem 0.75rem;
@@ -221,18 +220,16 @@
             flex-grow: 1;
             width: 100%;
             background-color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            border-radius: 0.375rem;
         }
         .tab-bar {
             width: 100%;
             display: flex;
             justify-content: center;
-            background-color: var(--dark-blue);
+            background-color: white;
         }
         .fact-tab-button {
-            background-color: var(--dark-blue);
-            color: white;
+            background-color: white;
+            color: var(--light-blue-doc);
             font-weight: 500;
             cursor: pointer;
             padding: 10px 20px;
@@ -241,10 +238,11 @@
             outline: none;
             text-align: center;
             font-size: 1rem;
+            border-bottom: 2px solid transparent;
         }
         .fact-tab-button.active {
-            background-color: var(--header-blue);
-            color: white;
+            color: var(--dark-blue);
+            border-bottom: 2px solid var(--dark-blue);
         }
         .fact-sheet-tab-content {
             display: none;
@@ -259,8 +257,6 @@
         }
         .irSEC {
             background-color: white;
-            border-radius: 0.375rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             margin-top: 2rem;
             padding: 1.5rem;
         }
@@ -274,6 +270,7 @@
         .nav_sa {
             display: flex;
             gap: 1rem;
+            background-color: white;
         }
         .nav_sa button {
             background: none;
@@ -283,6 +280,7 @@
             cursor: pointer;
             padding: 0.5rem 1rem;
             transition: color 0.3s;
+            border-bottom: 2px solid transparent;
         }
         .nav_sa button.active-btn {
             color: var(--dark-blue);
@@ -333,8 +331,8 @@
 
     <section id="ir-sticky-frame">
         <div class="max-w-7xl mx-auto px-6 md:px-8 flex flex-col lg:flex-row lg:h-screen bg-white">
-            <div id="mobile-nav-bar" class="lg:hidden sticky top-0 bg-white/80 backdrop-blur-sm z-40 p-2 w-full">
-                <div class="mobile-nav-container flex flex-wrap justify-center items-center gap-2 bg-black/10 rounded-3xl p-2"></div>
+            <div id="mobile-nav-bar" class="lg:hidden w-full">
+                <div class="mobile-nav-container flex flex-wrap justify-center items-center gap-2 bg-white p-2"></div>
             </div>
 
             <aside class="sidebar-container hidden lg:flex w-full lg:w-[300px] shrink-0 self-start pt-12">
@@ -415,7 +413,7 @@
                     </div>
                 </div>
                 <div id="content-documents" class="content-panel">
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
+                    <div class="bg-white rounded-lg overflow-hidden h-full flex flex-col">
                         <div class="p-8 pb-0">
                             <h2 class="text-3xl lg:text-4xl font-normal" style="color: var(--light-blue-doc);">Corporate Documents</h2>
                         </div>
@@ -654,12 +652,12 @@
                         </div>
                         <div class="cont2">
                             <section id="SAsection1" class="stockact active">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                <div style="width:100%; min-height:250px; background-color:white;">
                                     <div id="stock-activity-simple-widget"></div>
                                 </div>
                             </section>
                             <section id="SAsection2" class="stockact">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                <div style="width:100%; min-height:250px; background-color:white;">
                                     <div id="stock-activity-advanced-widget"></div>
                                 </div>
                             </section>
@@ -689,7 +687,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                             <div class="space-y-6">
                                 <p class="font-normal" style="color: var(--dark-blue); font-weight: 500;">
-                                    Official Email: <a href="mailto:IR@gasarabian.com" class="hover:underline" style="color: var(--header-blue);">IR@gasarabian.com</a>
+                                    Official Email: <a href="mailto:IR@gasarabian.com" class="hover:underline" style="color: var(--light-blue-doc);">IR@gasarabian.com</a>
                                 </p>
                                 <div class="text-sm">
                                     <h4 class="text-lg mb-1" style="color: var(--dark-blue); font-weight: 500;">Khalid Jamal Al Dabal</h4>
@@ -698,9 +696,9 @@
                                         Investor Relations & Corporate Governance / Shared Services<br>
                                         Mob: +966 503 877 818<br>
                                         Tel: +966 13 835 1500 Ext. 808<br>
-                                        Email: <a href="mailto:khalid.jamal@gasarabian.com" class="hover:underline" style="color: var(--header-blue);">khalid.jamal@gasarabian.com</a>
+                                        Email: <a href="mailto:khalid.jamal@gasarabian.com" class="hover:underline" style="color: var(--light-blue-doc);">khalid.jamal@gasarabian.com</a>
                                     </p>
-                                    <a target="_blank" href="https://www.linkedin.com/in/khalid-j-aldabal-78267b31" class="text-xl mt-1 inline-block" style="color: var(--header-blue);">
+                                    <a target="_blank" href="https://www.linkedin.com/in/khalid-j-aldabal-78267b31" class="text-xl mt-1 inline-block" style="color: var(--light-blue-doc);">
                                         <i class="fa fa-linkedin-square"></i>
                                     </a>
                                 </div>
@@ -710,9 +708,9 @@
                                         Senior Team Leader<br>
                                         Investor Relations & Corporate Governance<br>
                                         Tel: +966 13 835 1500 Ext. 478<br>
-                                        Email: <a href="mailto:m.alzahrani@gasarabian.com" class="hover:underline" style="color: var(--header-blue);">m.alzahrani@gasarabian.com</a>
+                                        Email: <a href="mailto:m.alzahrani@gasarabian.com" class="hover:underline" style="color: var(--light-blue-doc);">m.alzahrani@gasarabian.com</a>
                                     </p>
-                                    <a target="_blank" href="https://www.linkedin.com/in/majed-al-zahrani-377392139" class="text-xl mt-1 inline-block" style="color: var(--header-blue);">
+                                    <a target="_blank" href="https://www.linkedin.com/in/majed-al-zahrani-377392139" class="text-xl mt-1 inline-block" style="color: var(--light-blue-doc);">
                                         <i class="fa fa-linkedin-square"></i>
                                     </a>
                                 </div>
@@ -906,9 +904,8 @@
                             e.preventDefault();
                             const targetElement = document.getElementById(item.dataset.target);
                             if (targetElement) {
-                                const offset = document.getElementById('mobile-nav-bar').offsetHeight;
                                 window.scrollTo({
-                                    top: targetElement.offsetTop - offset,
+                                    top: targetElement.offsetTop,
                                     behavior: 'smooth'
                                 });
                                 reinitializeWidget(item.dataset.target);
