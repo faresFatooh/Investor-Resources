@@ -127,6 +127,7 @@
             .content-panel {
                 padding: 1rem;
                 min-height: calc(100vh - 4rem);
+                margin-top: 60px; /* Adjust for mobile nav bar */
             }
             .doc-tabs-container {
                 overflow-x: auto;
@@ -163,18 +164,49 @@
             .mobile-nav-container {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
-                scrollbar-width: thin;
-                scrollbar-color: #ccc transparent;
+                scrollbar-width: none; /* Hide scrollbar */
             }
             .mobile-nav-container::-webkit-scrollbar {
-                height: 6px;
+                display: none; /* Hide scrollbar in WebKit browsers */
             }
-            .mobile-nav-container::-webkit-scrollbar-track {
-                background: transparent;
+            #mobile-nav-bar {
+                position: sticky;
+                top: 0;
+                z-index: 50; /* Ensure nav stays above widgets */
+                background-color: white;
+                padding: 0.5rem;
             }
-            .mobile-nav-container::-webkit-scrollbar-thumb {
-                background-color: #ccc;
-                border-radius: 3px;
+            /* Mobile-specific widget styles */
+            .widget-wrapper {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .widget-wrapper::-webkit-scrollbar {
+                display: none;
+            }
+            .widget-wrapper > div,
+            .widget-wrapper iframe {
+                width: 100% !important;
+                min-width: 100%;
+                max-width: 100%;
+                height: auto !important; /* Dynamic height */
+                box-sizing: border-box;
+            }
+            #fact-sheet-table-widget {
+                width: 100%;
+                display: block;
+                background-color: white;
+            }
+            #fact-sheet-charts-widget,
+            #fact-sheet-charts-widget iframe {
+                height: auto !important; /* Dynamic height */
+                width: 100%;
+                display: block;
+                background-color: white;
             }
         }
 
@@ -421,19 +453,6 @@
         .fact-sheet-tab-content.active {
             display: block;
         }
-        #fact-sheet-table-widget {
-             min-height: 1500px;
-             width: 100%;
-             display: block;
-             background-color: white;
-        }
-        #fact-sheet-charts-widget,
-        #fact-sheet-charts-widget iframe {
-             height: auto;
-             width: 100%;
-             display: block;
-             background-color: white;
-        }
         
         .irSEC {
             background-color: white;
@@ -502,87 +521,6 @@
                 gap: 0.5rem;
             }
         }
-
-   @media (max-width: 1023px) {
-            .content-panel {
-                padding: 1rem;
-                min-height: calc(100vh - 4rem);
-                margin-top: 60px; /* Adjust for mobile nav bar */
-            }
-            .doc-tabs-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: thin;
-                scrollbar-color: #ccc transparent;
-            }
-            .doc-tabs-container::-webkit-scrollbar {
-                height: 6px;
-            }
-            .doc-tabs-container::-webkit-scrollbar-track {
-                background: transparent;
-            }
-            .doc-tabs-container::-webkit-scrollbar-thumb {
-                background-color: #ccc;
-                border-radius: 3px;
-            }
-            .tab-bar {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: thin;
-                scrollbar-color: #ccc transparent;
-            }
-            .tab-bar::-webkit-scrollbar {
-                height: 6px;
-            }
-            .tab-bar::-webkit-scrollbar-track {
-                background: transparent;
-            }
-            .tab-bar::-webkit-scrollbar-thumb {
-                background-color: #ccc;
-                border-radius: 3px;
-            }
-            .mobile-nav-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none; /* Hide scrollbar */
-            }
-            .mobile-nav-container::-webkit-scrollbar {
-                display: none; /* Hide scrollbar in WebKit browsers */
-            }
-            #mobile-nav-bar {
-                position: sticky;
-                top: 0;
-                z-index: 50; /* Ensure nav stays above widgets */
-                background-color: white;
-                padding: 0.5rem;
-            }
-            /* Mobile-specific widget styles */
-            .widget-wrapper {
-                width: 100%;
-                max-width: 100%;
-                overflow-x: hidden;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
-            .widget-wrapper::-webkit-scrollbar {
-                display: none;
-            }
-            .widget-wrapper > div,
-            .widget-wrapper iframe {
-                width: 100% !important;
-                min-width: 100%;
-                max-width: 100%;
-                height: auto !important;
-                min-height: 1500px;
-                box-sizing: border-box;
-            }
-            #fact-sheet-charts-widget,
-            #fact-sheet-charts-widget iframe {
-                height: auto !important;
-                min-height: 1500px;
-                width: 100%;
-            }
     </style>
 </head>
 <body>
@@ -1022,6 +960,44 @@
             }
         };
 
+        // Function to adjust widget height dynamically for mobile and tablet
+        function adjustWidgetHeight(widgetElement) {
+            if (!widgetElement || window.innerWidth >= 1024) return; // Skip for desktop
+
+            // For iframes
+            if (widgetElement.tagName === 'IFRAME') {
+                try {
+                    const iframeDoc = widgetElement.contentDocument || widgetElement.contentWindow.document;
+                    const contentHeight = iframeDoc.body.scrollHeight;
+                    widgetElement.style.height = `${contentHeight}px`;
+                } catch (e) {
+                    console.warn(`Cannot access iframe content for ${widgetElement.id} due to CORS:`, e);
+                    widgetElement.style.height = '200px'; // Fallback height for mobile
+                }
+            } 
+            // For div-based widgets
+            else {
+                const contentHeight = widgetElement.scrollHeight;
+                widgetElement.style.height = `${contentHeight}px`;
+            }
+        }
+
+        // Function to observe widget size changes for mobile and tablet
+        function observeWidget(widgetId) {
+            if (window.innerWidth >= 1024) return; // Skip for desktop
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+            if (!widgetElement) return;
+
+            // Initial height adjustment
+            adjustWidgetHeight(widgetElement);
+
+            // Use ResizeObserver to monitor content size changes
+            const observer = new ResizeObserver(() => {
+                adjustWidgetHeight(widgetElement);
+            });
+            observer.observe(widgetElement);
+        }
+
         function showSectionSA(sectionId, button) {
             const sections = document.querySelectorAll('.stockact');
             sections.forEach(section => section.classList.remove('active'));
@@ -1030,32 +1006,74 @@
             const buttons = document.querySelectorAll('.nav_sa button');
             buttons.forEach(btn => btn.classList.remove('active-btn'));
             button.classList.add('active-btn');
+
+            // Re-adjust height for the active section's widget on mobile
+            if (window.innerWidth < 1024) {
+                const widgetId = sectionId === 'SAsection1' ? 'stock-activity-simple' : 'stock-activity-advanced';
+                setTimeout(() => observeWidget(widgetId), 500); // Delay to ensure widget is loaded
+            }
         }
 
-        // Function to check if a widget loaded correctly, enhanced for mobile
-        function checkWidgetLoaded(widgetId, timeout = 5000) {
+        // Enhanced function to check if a widget loaded correctly with retries
+        function checkWidgetLoaded(widgetId, timeout = 5000, retries = 2) {
             const widgetElement = document.getElementById(`${widgetId}-widget`);
             if (!widgetElement) {
                 console.error(`Widget element not found: ${widgetId}`);
                 return;
             }
 
-            const checkInterval = setInterval(() => {
-                const hasContent = widgetElement.children.length > 0 || widgetElement.innerHTML.trim() !== '';
+            let retryCount = 0;
+            const maxRetries = retries;
+
+            const performCheck = () => {
+                const hasContent = widgetElement.children.length > 0 || 
+                                   widgetElement.innerHTML.trim() !== '' || 
+                                   widgetElement.offsetHeight > 50;
                 if (hasContent) {
                     console.log(`Widget loaded successfully: ${widgetId}`);
+                    if (window.innerWidth < 1024) {
+                        adjustWidgetHeight(widgetElement); // Adjust height after load on mobile
+                    }
+                    return true;
+                }
+                return false;
+            };
+
+            const checkInterval = setInterval(() => {
+                if (performCheck()) {
                     clearInterval(checkInterval);
+                    return;
                 }
             }, 500);
 
-            setTimeout(() => {
+            const timeoutHandler = () => {
                 clearInterval(checkInterval);
-                const hasContent = widgetElement.children.length > 0 || widgetElement.innerHTML.trim() !== '';
-                if (!hasContent) {
-                    console.error(`Widget failed to load after ${timeout}ms: ${widgetId}`);
-                    widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget. Please refresh the page.</p>`;
+                if (performCheck()) {
+                    return;
                 }
-            }, timeout);
+
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    console.log(`Retrying load for ${widgetId} (attempt ${retryCount}/${maxRetries})`);
+                    const companyId = "0bee5720-84b6-497f-8ac9-e1f3a759924e";
+                    const apiKey = "574a24a5-496e-4c9f-87c4-e11540313853";
+                    const lang = "en";
+                    try {
+                        loadWidget(widgetId, companyId, lang, apiKey, "v2");
+                        setTimeout(() => checkWidgetLoaded(widgetId, timeout * 1.5, maxRetries - retryCount), 1000);
+                    } catch (error) {
+                        console.error(`Retry failed for widget ${widgetId}:`, error);
+                        if (retryCount === maxRetries) {
+                            widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget after ${maxRetries + 1} attempts. Please refresh the page.</p>`;
+                        }
+                    }
+                } else {
+                    console.error(`Widget failed to load after ${maxRetries + 1} attempts: ${widgetId}`);
+                    widgetElement.innerHTML = `<p class="text-red-600 p-4">Error: Failed to load ${widgetId} widget after ${maxRetries + 1} attempts. Please refresh the page.</p>`;
+                }
+            };
+
+            setTimeout(timeoutHandler, timeout);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1077,6 +1095,7 @@
                 'share-series',
                 'investment-calculator',
                 'email-subscription',
+                'fact-sheet-charts'
             ];
 
             if (typeof window.loadWidget === 'function' && window.loadWidget.toString().indexOf('[native code]') === -1) {
@@ -1084,8 +1103,11 @@
                     console.log(`Loading widget: ${widget}`);
                     try {
                         loadWidget(widget, companyId, lang, apiKey, "v2");
-                        // Check loading after a short delay
-                        setTimeout(() => checkWidgetLoaded(widget), 1000);
+                        const timeout = window.innerWidth < 1024 ? 8000 : 5000; // Longer timeout for mobile
+                        setTimeout(() => {
+                            checkWidgetLoaded(widget, timeout, 3);
+                            observeWidget(widget); // Observe widget for size changes on mobile
+                        }, 1000);
                     } catch (error) {
                         console.error(`Failed to load widget ${widget}:`, error);
                     }
@@ -1130,6 +1152,11 @@
                     content.classList.toggle('active', content.id === 'fact-sheet-' + targetId + '-content');
                 });
                 
+                // Re-adjust widget heights after tab switch on mobile
+                if (window.innerWidth < 1024) {
+                    const widgetId = targetId === 'table' ? 'fact-sheet-table' : 'fact-sheet-charts';
+                    setTimeout(() => observeWidget(widgetId), 500);
+                }
                 window.dispatchEvent(new Event('resize'));
             };
 
@@ -1149,7 +1176,8 @@
                     'content-financials': 'company-financials',
                     'content-share-information': ['stock-activity-simple', 'stock-activity-advanced', 'performance', 'share-series'],
                     'content-calculator': 'investment-calculator',
-                    'content-subscription': 'email-subscription'
+                    'content-subscription': 'email-subscription',
+                    'content-factsheet': ['fact-sheet-table', 'fact-sheet-charts']
                 };
                 const widgetsToLoad = widgetMap[panelId];
                 if (widgetsToLoad) {
@@ -1163,15 +1191,16 @@
                                 console.log(`Reinitializing widget: ${widgetId}`);
                                 try {
                                     loadWidget(widgetId, companyId, lang, apiKey, "v2");
-                                    // Enhanced check for mobile
-                                    if (window.innerWidth < 1024) {
-                                        setTimeout(() => checkWidgetLoaded(widgetId), 1500); // Slightly longer timeout for mobile
-                                    } else {
-                                        setTimeout(() => checkWidgetLoaded(widgetId), 1000);
-                                    }
+                                    const timeout = window.innerWidth < 1024 ? 8000 : 5000;
+                                    setTimeout(() => {
+                                        checkWidgetLoaded(widgetId, timeout, 3);
+                                        observeWidget(widgetId); // Adjust height on mobile
+                                    }, 1000);
                                 } catch (error) {
                                     console.error(`Failed to reinitialize widget ${widgetId}:`, error);
                                 }
+                            } else {
+                                observeWidget(widgetId); // Ensure height is adjusted for already loaded widgets on mobile
                             }
                         }
                     });
@@ -1341,11 +1370,14 @@
                     reinitializeWidget(firstVisiblePanel.id);
                 }
 
-                // Additional mobile-specific widget check on resize
+                // Adjust widget heights on resize for mobile
                 window.addEventListener('resize', () => {
                     if (window.innerWidth < 1024) {
                         widgets.forEach(widget => {
-                            setTimeout(() => checkWidgetLoaded(widget), 1000);
+                            setTimeout(() => {
+                                checkWidgetLoaded(widget, 8000, 3);
+                                observeWidget(widget);
+                            }, 1000);
                         });
                     }
                 });
