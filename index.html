@@ -503,33 +503,86 @@
             }
         }
 
-        /* Mobile horizontal scroll for widgets */
-        @media (max-width: 1023px) {
-            .widget-wrapper {
+   @media (max-width: 1023px) {
+            .content-panel {
+                padding: 1rem;
+                min-height: calc(100vh - 4rem);
+                margin-top: 60px; /* Adjust for mobile nav bar */
+            }
+            .doc-tabs-container {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: thin;
                 scrollbar-color: #ccc transparent;
-                width: 100%;
-                padding-bottom: 10px; /* Add space for scrollbar */
             }
-            .widget-wrapper::-webkit-scrollbar {
+            .doc-tabs-container::-webkit-scrollbar {
                 height: 6px;
             }
-            .widget-wrapper::-webkit-scrollbar-track {
+            .doc-tabs-container::-webkit-scrollbar-track {
                 background: transparent;
             }
-            .widget-wrapper::-webkit-scrollbar-thumb {
+            .doc-tabs-container::-webkit-scrollbar-thumb {
                 background-color: #ccc;
                 border-radius: 3px;
             }
-            /* Ensure specific sections have full width for scroll */
-            #content-financials .widget-wrapper,
-            #content-corporate-actions .widget-wrapper,
-            #content-announcement .widget-wrapper {
-                min-width: 100%;
+            .tab-bar {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: #ccc transparent;
             }
-        }
+            .tab-bar::-webkit-scrollbar {
+                height: 6px;
+            }
+            .tab-bar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .tab-bar::-webkit-scrollbar-thumb {
+                background-color: #ccc;
+                border-radius: 3px;
+            }
+            .mobile-nav-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Hide scrollbar */
+            }
+            .mobile-nav-container::-webkit-scrollbar {
+                display: none; /* Hide scrollbar in WebKit browsers */
+            }
+            #mobile-nav-bar {
+                position: sticky;
+                top: 0;
+                z-index: 50; /* Ensure nav stays above widgets */
+                background-color: white;
+                padding: 0.5rem;
+            }
+            /* Mobile-specific widget styles */
+            .widget-wrapper {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .widget-wrapper::-webkit-scrollbar {
+                display: none;
+            }
+            .widget-wrapper > div,
+            .widget-wrapper iframe {
+                width: 100% !important;
+                min-width: 100%;
+                max-width: 100%;
+                height: auto !important;
+                min-height: 300px;
+                box-sizing: border-box;
+            }
+            #fact-sheet-charts-widget,
+            #fact-sheet-charts-widget iframe {
+                height: auto !important;
+                min-height: 500px;
+                width: 100%;
+            }
     </style>
 </head>
 <body>
