@@ -53,6 +53,10 @@
                 transform: translateY(0);
                 z-index: 10;
             }
+            .content-panel#content-share-information {
+                padding: 2rem;
+                overflow-y: auto;
+            }
             .sidebar-container {
                 padding-top: 2rem;
                 padding-left: 0.5rem;
@@ -324,15 +328,15 @@
             display: block;
         }
         #fact-sheet-table-widget {
-             min-height: 1500px;
-             width: 100%;
-             display: block;
+            min-height: 1500px;
+            width: 100%;
+            display: block;
         }
         #fact-sheet-charts-widget,
         #fact-sheet-charts-widget iframe {
-             height: 8000px !important;
-             width: 100%;
-             display: block;
+            height: 8000px !important;
+            width: 100%;
+            display: block;
         }
         
         .irSEC {
@@ -341,6 +345,10 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             margin-top: 2rem;
             padding: 1.5rem;
+            width: 100%;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
         }
         .irH3 {
             font-size: 1.875rem;
@@ -351,6 +359,8 @@
         }
         .cont2 {
             padding: 0; 
+            width: 100%;
+            flex-grow: 1;
         }
         .outerdiv {
             width: 100%;
@@ -378,8 +388,28 @@
         }
         .stockact {
             display: none;
+            width: 100%;
         }
         .stockact.active {
+            display: block;
+        }
+        .stockact > div {
+            width: 100%;
+            min-height: 250px;
+            background-color: #fff;
+            overflow: visible;
+        }
+        #stock-activity-advanced-widget,
+        #stock-activity-simple-widget {
+            width: 100%;
+            height: auto !important;
+            overflow: visible;
+        }
+        #stock-activity-advanced-widget > iframe,
+        #stock-activity-simple-widget > iframe {
+            width: 100% !important;
+            height: auto !important;
+            min-height: 400px;
             display: block;
         }
         @media (min-width: 1024px) {
@@ -388,6 +418,9 @@
             }
             .irH3 {
                 font-size: 2.25rem;
+            }
+            .stockact > div {
+                min-height: 400px;
             }
         }
         @media (max-width: 640px) {
@@ -722,12 +755,12 @@
                         </div>
                         <div class="cont2">
                             <section id="SAsection1" class="stockact active">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                <div style="width:100%; background-color:#fff;">
                                     <div id="stock-activity-simple-widget"></div>
                                 </div>    
                             </section>
                             <section id="SAsection2" class="stockact">
-                                <div style="width:100%; min-height:250px; background-color:#fff;">
+                                <div style="width:100%; background-color:#fff;">
                                     <div id="stock-activity-advanced-widget"></div>
                                 </div>    
                             </section>
@@ -883,14 +916,29 @@
             buttons.forEach(btn => btn.classList.remove('active-btn'));
             button.classList.add('active-btn');
 
-            // Reinitialize widgets for the active section
+            // Reinitialize widget for the active section
             const widgetId = sectionId === 'SAsection1' ? 'stock-activity-simple' : 'stock-activity-advanced';
+            const widgetElement = document.getElementById(`${widgetId}-widget`);
+
+            // Clear existing content to prevent stale rendering
+            if (widgetElement) {
+                widgetElement.innerHTML = '';
+            }
+
             waitForWidgetLoader(() => {
                 try {
                     loadWidget(widgetId, "0bee5720-84b6-497f-8ac9-e1f3a759924e", "en", "574a24a5-496e-4c9f-87c4-e11540313853", "v2");
                     checkWidgetLoaded(widgetId);
+
+                    // Force resize after widget loads
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 1000);
                 } catch (error) {
                     console.error(`Failed to load widget ${widgetId}:`, error);
+                    if (widgetElement) {
+                        widgetElement.innerHTML = `<p class="text-red-600">Error: Failed to load ${widgetId} widget. Check console for details.</p>`;
+                    }
                 }
             });
         }
