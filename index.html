@@ -865,14 +865,14 @@
                 });
             });
 
-            // Attach wheel event to the entire ir-sticky-frame for desktop scrolling
-            const stickyFrame = document.getElementById('ir-sticky-frame');
-            if (stickyFrame) {
-                stickyFrame.addEventListener('wheel', (e) => {
+            // Attach wheel event to the entire document for desktop scrolling
+            document.addEventListener('wheel', (e) => {
+                // Only handle scroll if iframe is active (controlled by parent)
+                if (window.parent.document.querySelector('.desktop-iframe.active-iframe')) {
                     e.preventDefault(); // Prevent default scroll to control panel switching
                     handleScroll(e);
-                }, { passive: false });
-            }
+                }
+            }, { passive: false });
 
             // Initialize with first panel
             navigateTo('content-overview');
