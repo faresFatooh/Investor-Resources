@@ -135,6 +135,36 @@
                 scrollbar-width: auto; /* Ensure scrollbar visibility for Firefox */
                 scrollbar-color: #888 #f1f1f1; /* Scrollbar color for Firefox */
             }
+
+            /* Horizontal scroll for widgets on mobile */
+            .mobile-horizontal-scroll {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+                scrollbar-width: auto;
+                scrollbar-color: #888 #f1f1f1;
+            }
+
+            .mobile-horizontal-scroll::-webkit-scrollbar {
+                height: 8px;
+            }
+            .mobile-horizontal-scroll::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            .mobile-horizontal-scroll::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 4px;
+            }
+            .mobile-horizontal-scroll::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+            /* Ensure widgets don't overflow and allow horizontal scroll */
+            #corporate-news-widget,
+            #corporate-actions-widget,
+            #company-financials-widget {
+                min-width: 800px; /* Assume widgets are wide; adjust based on actual content */
+                width: auto;
+            }
         }
 
         /* Ensure scrollbar is visible on WebKit browsers (Chrome, Safari) */
@@ -495,7 +525,9 @@
                 
                 <div id="content-announcement" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Announcement</h2>
-                    <div id="corporate-news-widget"></div>
+                    <div class="mobile-horizontal-scroll">
+                        <div id="corporate-news-widget"></div>
+                    </div>
                 </div>
                 
                 <div id="content-factsheet" class="content-panel">
@@ -752,12 +784,16 @@
 
                 <div id="content-corporate-actions" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Corporate Actions</h2>
-                    <div id="corporate-actions-widget" class="w-full"></div>
+                    <div class="mobile-horizontal-scroll">
+                        <div id="corporate-actions-widget" class="w-full"></div>
+                    </div>
                 </div>
                 
                 <div id="content-financials" class="content-panel">
                     <h2 class="text-3xl lg:text-4xl font-normal mb-8" style="color: #1ABCFF;">Company Financials</h2>
-                    <div id="company-financials-widget" class="w-full"></div>
+                    <div class="mobile-horizontal-scroll">
+                        <div id="company-financials-widget" class="w-full"></div>
+                    </div>
                 </div>
                 
                 <div id="content-share-information" class="content-panel">
