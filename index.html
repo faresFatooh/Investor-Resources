@@ -147,8 +147,7 @@
         #content-financials .content-panel::-webkit-scrollbar,
         #corporate-news-widget::-webkit-scrollbar,
         #corporate-actions-widget::-webkit-scrollbar,
-        #company-financials-widget::-webkit-scrollbar,
-        #stock-activity-advanced-widget::-webkit-scrollbar {
+        #company-financials-widget::-webkit-scrollbar {
             width: 10px;
             height: 10px;
         }
@@ -161,8 +160,7 @@
         #content-financials .content-panel::-webkit-scrollbar-track,
         #corporate-news-widget::-webkit-scrollbar-track,
         #corporate-actions-widget::-webkit-scrollbar-track,
-        #company-financials-widget::-webkit-scrollbar-track,
-        #stock-activity-advanced-widget::-webkit-scrollbar-track {
+        #company-financials-widget::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
         .content-panel::-webkit-scrollbar-thumb,
@@ -174,8 +172,7 @@
         #content-financials .content-panel::-webkit-scrollbar-thumb,
         #corporate-news-widget::-webkit-scrollbar-thumb,
         #corporate-actions-widget::-webkit-scrollbar-thumb,
-        #company-financials-widget::-webkit-scrollbar-thumb,
-        #stock-activity-advanced-widget::-webkit-scrollbar-thumb {
+        #company-financials-widget::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 5px;
         }
@@ -188,8 +185,7 @@
         #content-financials .content-panel::-webkit-scrollbar-thumb:hover,
         #corporate-news-widget::-webkit-scrollbar-thumb:hover,
         #corporate-actions-widget::-webkit-scrollbar-thumb:hover,
-        #company-financials-widget::-webkit-scrollbar-thumb:hover,
-        #stock-activity-advanced-widget::-webkit-scrollbar-thumb:hover {
+        #company-financials-widget::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
 
@@ -197,16 +193,14 @@
         @media (max-width: 640px) {
             #content-announcement .content-panel,
             #content-corporate-actions .content-panel,
-            #content-financials .content-panel,
-            #content-share-information .content-panel {
+            #content-financials .content-panel {
                 overflow-x: auto;
                 scrollbar-width: auto;
                 scrollbar-color: #888 #f1f1f1;
             }
             #corporate-news-widget,
             #corporate-actions-widget,
-            #company-financials-widget,
-            #stock-activity-advanced-widget {
+            #company-financials-widget {
                 min-width: 800px; /* Ensure content is wider to trigger horizontal scroll */
             }
         }
@@ -478,12 +472,6 @@
         }
         .stockact.active {
             display: block;
-        }
-        #stock-activity-advanced-widget {
-            width: 100%;
-            min-height: 600px; /* Increased to prevent cutoff */
-            overflow-x: auto;
-            overflow-y: auto;
         }
         @media (min-width: 1024px) {
             .irSEC {
@@ -830,7 +818,7 @@
                                 </div>    
                             </section>
                             <section id="SAsection2" class="stockact">
-                                <div style="width:100%; min-height:600px; background-color:white;">
+                                <div style="width:100%; min-height:250px; background-color:white;">
                                     <div id="stock-activity-advanced-widget"></div>
                                 </div>    
                             </section>
@@ -952,7 +940,6 @@
                     }
                 } else {
                     console.log(`Widget ${widgetId} loaded successfully.`);
-                    window.dispatchEvent(new Event('resize')); // Trigger resize to adjust widget dimensions
                 }
             }, 5000);
         }
